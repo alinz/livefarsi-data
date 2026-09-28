@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 	"sync"
 	"time"
@@ -20,9 +21,10 @@ type Progress struct {
 	start   time.Time
 	lines   int // lines drawn by the last render, to move back over them
 
-	showsTotal, showsDone, showsSkipped, showsFailed int
-	showsParsed                                      int // shows whose episode list is known
-	epsFound, epsDone, epsMissing                    int
+	showsTotal, showsDone                          int
+	showsNew, showsUpdated, showsSame, showsFailed int
+	showsParsed                                    int // shows whose episode list is known
+	epsFound, epsDone, epsMissing                  int
 
 	workers []workerState
 
@@ -32,6 +34,8 @@ type Progress struct {
 	stop chan struct{}
 	done chan struct{}
 }
+
+var reANSI = regexp.MustCompile(`\x1b\[[0-9;]*m`)
 
 type sample struct {
 	at   time.Time
@@ -91,7 +95,11 @@ func (p *Progress) Logf(format string, args ...any) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 	p.clear()
-	fmt.Fprintf(p.out, "%s  %s\n", time.Now().Format("15:04:05"), fmt.Sprintf(format, args...))
+	msg := fmt.Sprintf(format, args...)
+	if !p.tty {
+		msg = reANSI.ReplaceAllString(msg, "")
+	}
+	fmt.Fprintf(p.out, "%s  %s\n", time.Now().Format("15:04:05"), msg)
 	if p.tty {
 		p.draw()
 	}
@@ -127,8 +135,8 @@ func (p *Progress) EpisodeDone(w int, hasPlayer bool) {
 	}
 }
 
-// FinishShow marks worker w idle. status is "done", "skipped", "failed" or
-// "interrupted" (cut off by Ctrl+C; not counted, it'll be redone next run).
+// FinishShow marks worker w idle. status is "new", "updated", "unchanged",
+// "failed" or "interrupted" (cut off by Ctrl+C; not counted, redone next run).
 func (p *Progress) FinishShow(w int, status string) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
@@ -136,12 +144,25 @@ func (p *Progress) FinishShow(w int, status string) {
 	switch status {
 	case "interrupted":
 		return
-	case "skipped":
-		p.showsSkipped++
+	case "new":
+		p.showsNew++
+	case "updated":
+		p.showsUpdated++
+	case "unchanged":
+		p.showsSame++
 	case "failed":
 		p.showsFailed++
 	}
 	p.showsDone++
+}
+
+// Summary describes what the run changed.
+func (p *Progress) Summary() string {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	return fmt.Sprintf("%d new series, %d updated, %d unchanged, %d failed; %d episode pages fetched, %d requests in %s",
+		p.showsNew, p.showsUpdated, p.showsSame, p.showsFailed, p.epsDone,
+		p.fetcher.Requests.Load(), time.Since(p.start).Round(time.Second))
 }
 
 // clear erases the previously drawn block so the cursor is where it started.
@@ -186,8 +207,13 @@ func (p *Progress) draw() {
 	}
 
 	extra := []string{}
-	if p.showsSkipped > 0 {
-		extra = append(extra, fmt.Sprintf("%d already on disk", p.showsSkipped))
+	for _, c := range []struct {
+		n    int
+		what string
+	}{{p.showsNew, "new"}, {p.showsUpdated, "updated"}, {p.showsSame, "unchanged"}} {
+		if c.n > 0 {
+			extra = append(extra, fmt.Sprintf("%d %s", c.n, c.what))
+		}
 	}
 	if p.showsFailed > 0 {
 		extra = append(extra, fmt.Sprintf("\x1b[31m%d failed\x1b[0m", p.showsFailed))
@@ -222,7 +248,7 @@ func (p *Progress) draw() {
 
 // estimatedEpisodes guesses the final episode total from shows parsed so far.
 func (p *Progress) estimatedEpisodes() int {
-	pending := p.showsTotal - p.showsSkipped - p.showsParsed
+	pending := p.showsTotal - p.showsSame - p.showsParsed
 	if p.showsParsed == 0 || pending <= 0 {
 		return p.epsFound
 	}

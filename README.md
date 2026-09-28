@@ -23,7 +23,34 @@ go run ./cmd/site -i shows.json -o site     # then open site/index.html
 | `-dir` | `output` | folder for per-series files |
 | `-o` | `shows.json` | combined file |
 | `-limit` | 0 | only the first N shows (for testing) |
-| `-refresh` | false | re-scrape series that already have a file |
+| `-deep` | false | re-read every series page (≈40s) to catch changes the episode count misses |
+| `-refresh` | false | ignore saved files and re-scrape everything |
+
+### Incremental sync
+
+Only the first run is a full crawl (~15 min). Every later run:
+
+1. reads the 13 catalog pages (~2s), which show each series' episode count;
+2. **skips** a series whose count matches its saved file, with no requests at all;
+3. for a **new** series, scrapes it fully; for a series whose **count changed**, re-reads its
+   page (1 request), keeps the player URLs already saved, and fetches only the new episode pages;
+4. rewrites `shows.json`.
+
+So a run with nothing new takes ~3s, and a few new episodes add a second or two. The log lists
+what changed (`+ koori: new series, 12 episodes`, `~ vaahshi: 2 new episode(s)`) and ends with a
+summary line. Series that drop out of the catalog stay on disk but are left out of `shows.json`.
+
+The count check misses edits that don't change the count (e.g. an episode swapped for another),
+so run with `-deep` now and then; it still only fetches episode pages it hasn't seen.
+
+Example cron (every 30 minutes, plus a deep check nightly):
+
+```cron
+*/30 * * * * cd ~/Documents/ali/projects/movies && ./bin/scrape >> sync.log 2>&1 && ./bin/site
+0 4 * * *    cd ~/Documents/ali/projects/movies && ./bin/scrape -deep >> sync.log 2>&1 && ./bin/site
+```
+
+(build the binaries with `go build -o bin/ ./cmd/...`)
 
 Being polite to the server: all workers share one rate limiter, so `-workers`/`-per-show` only
 control how many requests may be *in flight*; throughput never exceeds `-rps`. On HTTP 429 or

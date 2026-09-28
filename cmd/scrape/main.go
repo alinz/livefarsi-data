@@ -1,9 +1,13 @@
 // Command scrape crawls the TV series catalog on diycraftsguide.com and saves
 // every show, its poster, seasons, episodes and each episode's player URL.
 //
-// Each show is written to <dir>/series/<slug>.json as soon as it is done, so
-// an interrupted run can simply be restarted and resumes where it stopped.
-// At the end all shows are combined, in catalog order, into one JSON file.
+// Each show is written to <dir>/series/<slug>.json as soon as it is done, and
+// at the end all shows are combined, in catalog order, into one JSON file.
+//
+// Runs are incremental: the catalog pages list every show's episode count, so
+// a show whose count matches its saved file is skipped without any request.
+// Changed shows re-read only their show page, keep the player URLs already on
+// disk, and fetch just the new episode pages. An interrupted run resumes too.
 package main
 
 import (
@@ -18,6 +22,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"strings"
 	"sync"
 	"sync/atomic"
 	"syscall"
@@ -32,7 +37,8 @@ func main() {
 	rps := flag.Float64("rps", 8, "maximum requests per second to the site, across all workers")
 	retries := flag.Int("retries", 4, "retries per page on errors")
 	limit := flag.Int("limit", 0, "only scrape the first N shows (0 = all)")
-	refresh := flag.Bool("refresh", false, "re-scrape shows that already have a JSON file")
+	deep := flag.Bool("deep", false, "re-read every show page to find changes the episode count misses (still only fetches new episodes)")
+	refresh := flag.Bool("refresh", false, "ignore saved files and re-scrape everything")
 	flag.Parse()
 	log.SetFlags(log.Ltime)
 
@@ -67,24 +73,21 @@ func main() {
 		wg.Go(func() {
 			for s := range jobs {
 				path := filepath.Join(seriesDir, s.Slug+".json")
-				if !*refresh && fileExists(path) {
-					progress.FinishShow(w, "skipped")
-					continue
-				}
-				progress.StartShow(w, s.Slug)
-				err := scrapeShow(ctx, fetcher, progress, w, *perShow, s)
-				if err == nil {
-					err = writeJSON(path, s)
-				}
+				status, added, err := syncShow(ctx, fetcher, progress, w, *perShow, s, path, *refresh, *deep)
 				switch {
 				case ctx.Err() != nil:
-					progress.FinishShow(w, "interrupted")
+					status = "interrupted"
 				case err != nil:
 					progress.Logf("\x1b[31m%s: %v (will retry on next run)\x1b[0m", s.Slug, err)
-					progress.FinishShow(w, "failed")
-				default:
-					progress.FinishShow(w, "done")
+					status = "failed"
+				case status == "new":
+					progress.Logf("\x1b[32m+ %s: new series, %d episodes\x1b[0m", s.Slug, added)
+				case status == "updated" && added > 0:
+					progress.Logf("\x1b[36m~ %s: %d new episode(s)\x1b[0m", s.Slug, added)
+				case status == "updated":
+					progress.Logf("\x1b[36m~ %s: updated\x1b[0m", s.Slug)
 				}
+				progress.FinishShow(w, status)
 			}
 		})
 	}
@@ -105,6 +108,13 @@ feed:
 		os.Exit(130)
 	}
 
+	log.Printf("sync: %s", progress.Summary())
+	if *limit == 0 {
+		if gone := staleFiles(seriesDir, shows); len(gone) > 0 {
+			log.Printf("%d series are no longer in the catalog (kept on disk, left out of %s): %v", len(gone), *out, gone)
+		}
+	}
+
 	n, missing, err := combine(*out, seriesDir, shows)
 	if err != nil {
 		log.Fatal(err)
@@ -123,12 +133,24 @@ func listShows(ctx context.Context, f *Fetcher) ([]*Show, error) {
 		return nil, err
 	}
 	shows, last := parseCatalogPage(first)
-	for offset := 24; offset <= last; offset += 24 {
-		page, err := f.Get(ctx, fmt.Sprintf("%s/tv-series/%d.html", baseURL, offset))
-		if err != nil {
-			return nil, err
-		}
-		more, _ := parseCatalogPage(page)
+
+	// Fetch the remaining pages concurrently (the fetcher still rate-limits),
+	// then append them in page order.
+	pages := make([][]*Show, last/24)
+	errs := make([]error, len(pages))
+	var wg sync.WaitGroup
+	for i := range pages {
+		wg.Go(func() {
+			page, err := f.Get(ctx, fmt.Sprintf("%s/tv-series/%d.html", baseURL, (i+1)*24))
+			pages[i], _ = parseCatalogPage(page)
+			errs[i] = err
+		})
+	}
+	wg.Wait()
+	if err := errors.Join(errs...); err != nil {
+		return nil, err
+	}
+	for _, more := range pages {
 		shows = append(shows, more...)
 	}
 
@@ -143,16 +165,80 @@ func listShows(ctx context.Context, f *Fetcher) ([]*Show, error) {
 	return unique, nil
 }
 
-// scrapeShow reads the show page, then every episode page for its player.
-func scrapeShow(ctx context.Context, f *Fetcher, progress *Progress, w, parallel int, s *Show) error {
+// syncShow brings one show's file up to date. status is "new", "updated" or
+// "unchanged"; added is the number of episodes that weren't on disk before.
+func syncShow(ctx context.Context, f *Fetcher, progress *Progress, w, parallel int, s *Show, path string, refresh, deep bool) (status string, added int, err error) {
+	var old *Show
+	if !refresh {
+		if old, err = readShow(path); err != nil {
+			progress.Logf("\x1b[33m%s: can't read saved file, re-scraping: %v\x1b[0m", s.Slug, err)
+			old = nil
+		}
+	}
+	if old != nil && !deep && old.EpisodeCount == s.EpisodeCount {
+		return "unchanged", 0, nil
+	}
+
+	progress.StartShow(w, s.Slug)
+	known := map[string]*Episode{}
+	if old != nil {
+		for _, ep := range old.episodes() {
+			known[ep.URL] = ep
+		}
+	}
+	if added, err = scrapeShow(ctx, f, progress, w, parallel, s, known); err != nil {
+		return "", 0, err
+	}
+
+	b, err := marshal(s)
+	if err != nil {
+		return "", 0, err
+	}
+	if old != nil {
+		if prev, err := os.ReadFile(path); err == nil && bytes.Equal(prev, b) {
+			return "unchanged", 0, nil
+		}
+	}
+	if err := writeFile(path, b); err != nil {
+		return "", 0, err
+	}
+	if old == nil {
+		return "new", added, nil
+	}
+	return "updated", added, nil
+}
+
+// readShow loads a saved show; it returns nil, nil if there is none.
+func readShow(path string) (*Show, error) {
+	b, err := os.ReadFile(path)
+	if errors.Is(err, fs.ErrNotExist) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	var s Show
+	return &s, json.Unmarshal(b, &s)
+}
+
+// scrapeShow reads the show page, then the episode pages for their players.
+// Episodes found in known (from the previous run) keep their saved player, so
+// only new episodes, or ones that had no player last time, are fetched.
+func scrapeShow(ctx context.Context, f *Fetcher, progress *Progress, w, parallel int, s *Show, known map[string]*Episode) (added int, err error) {
 	page, err := f.Get(ctx, s.URL)
 	if err != nil {
-		return err
+		return 0, err
 	}
 	parseShowPage(s, page)
 
 	var todo []*Episode
 	for _, ep := range s.episodes() {
+		prev, ok := known[ep.URL]
+		if !ok {
+			added++
+		} else if ep.Embed == "" {
+			ep.Player, ep.Embed, ep.MimeType = prev.Player, prev.Embed, prev.MimeType
+		}
 		if ep.Embed == "" {
 			todo = append(todo, ep)
 		}
@@ -170,7 +256,7 @@ func scrapeShow(ctx context.Context, f *Fetcher, progress *Progress, w, parallel
 		case sem <- struct{}{}:
 		case <-ctx.Done():
 			wg.Wait()
-			return ctx.Err()
+			return 0, ctx.Err()
 		}
 		wg.Go(func() {
 			defer func() { <-sem }()
@@ -193,20 +279,16 @@ func scrapeShow(ctx context.Context, f *Fetcher, progress *Progress, w, parallel
 	wg.Wait()
 
 	if ctx.Err() != nil {
-		return ctx.Err()
+		return 0, ctx.Err()
 	}
 	if n := failed.Load(); n > 0 {
-		return fmt.Errorf("%d episode pages failed, e.g. %v", n, first.Load())
+		return 0, fmt.Errorf("%d episode pages failed, e.g. %v", n, first.Load())
 	}
-	return nil
+	return added, nil
 }
 
-// writeJSON writes v to path atomically, so a crash never leaves half a file.
-func writeJSON(path string, v any) error {
-	b, err := marshal(v)
-	if err != nil {
-		return err
-	}
+// writeFile writes b to path atomically, so a crash never leaves half a file.
+func writeFile(path string, b []byte) error {
 	tmp := path + ".tmp"
 	if err := os.WriteFile(tmp, b, 0o644); err != nil {
 		return err
@@ -271,7 +353,18 @@ func combine(out, seriesDir string, shows []*Show) (written, missing int, err er
 	return written, missing, os.Rename(tmp, out)
 }
 
-func fileExists(path string) bool {
-	_, err := os.Stat(path)
-	return err == nil
+// staleFiles lists saved series that are no longer in the catalog.
+func staleFiles(seriesDir string, shows []*Show) []string {
+	listed := map[string]bool{}
+	for _, s := range shows {
+		listed[s.Slug+".json"] = true
+	}
+	entries, _ := os.ReadDir(seriesDir)
+	var gone []string
+	for _, e := range entries {
+		if filepath.Ext(e.Name()) == ".json" && !listed[e.Name()] {
+			gone = append(gone, strings.TrimSuffix(e.Name(), ".json"))
+		}
+	}
+	return gone
 }
