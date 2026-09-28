@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Persian TV Series</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html">TV Series</a>
+  <div class="search">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="search" type="search" placeholder="Search {{len .Shows}} series…  (press /)" autocomplete="off" autofocus aria-label="Search TV series">
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="count" id="count" aria-live="polite">{{len .Shows}} series</p>
+  <ul class="grid" id="grid">
+    {{- range .Shows}}
+    <li class="card" data-search="{{.SearchText}}">
+      <a href="shows/{{.Slug}}.html">
+        <div class="poster">
+          <img src="{{.Poster}}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+          <span class="badge">{{.Episodes}} ep</span>
+        </div>
+        <h2>{{.Title}}</h2>
+      </a>
+    </li>
+    {{- end}}
+  </ul>
+  <p class="empty" id="empty" hidden>No series match your search.</p>
+</main>
+<script src="index.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Title}} · TV Series</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body data-show="{{.Slug}}">
+<header class="topbar">
+  <a class="brand" href="../index.html">← All series</a>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <img class="hero-poster" src="{{.Poster}}" alt="" referrerpolicy="no-referrer">
+    <div>
+      <h1>{{.Title}}</h1>
+      {{with .Description}}<p class="desc" dir="auto">{{.}}</p>{{end}}
+      <p class="meta">{{len .Seasons}} season{{if ne (len .Seasons) 1}}s{{end}} · {{.Episodes}} episodes</p>
+    </div>
+  </section>
+
+  <section class="player-wrap" id="player-wrap">
+    <div class="player" id="player">
+      <div class="player-empty">Choose an episode below to start watching</div>
+    </div>
+    <div class="player-bar">
+      <button type="button" id="prev" disabled>‹ Previous</button>
+      <span id="now-playing"></span>
+      <button type="button" id="next" disabled>Next ›</button>
+    </div>
+  </section>
+
+  {{- range $si, $season := .Seasons}}
+  <section class="season">
+    <h2>{{$season.Name}}</h2>
+    <ol class="episodes">
+      {{- range $ei, $ep := $season.Episodes}}
+      <li>
+        <button type="button" class="episode" id="s{{add $si 1}}e{{add $ei 1}}"
+          data-player="{{$ep.Player}}" data-src="{{$ep.Embed}}" data-mime="{{$ep.MimeType}}"
+          data-label="{{$season.Name}} · {{$ep.Title}}"{{if not $ep.Embed}} disabled{{end}}>
+          <span class="thumb">
+            {{- with $ep.Thumbnail}}<img src="{{.}}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">{{end -}}
+            <span class="play" aria-hidden="true"></span>
+          </span>
+          <span class="ep-title">{{$ep.Title}}</span>
+        </button>
+      </li>
+      {{- end}}
+    </ol>
+  </section>
+  {{- end}}
+</main>
+<script src="../show.js"></script>
+</body>
+</html>
