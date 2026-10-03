@@ -1,0 +1,39 @@
+{
+  "slug": "badaaljdgc",
+  "title": "Badaal",
+  "url": "https://www.diycraftsguide.com/watch/badaaljdgc.html",
+  "poster": "https://www.diycraftsguide.com/uploads/video_thumb/852.jpg",
+  "description": "Serial Irani Badaal - سریال ایرانی بدل - Watch on LiveFarsi",
+  "episode_count": "3 EPISODES",
+  "seasons": [
+    {
+      "name": "Season 1",
+      "episodes": [
+        {
+          "title": "E01",
+          "url": "https://www.diycraftsguide.com/watch/badaaljdgc.html?key=fhy9bbet7h37",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "video",
+          "embed": "http://media.negahestan.com/ipnx/media/series/episodes/Badal_01.mp4",
+          "mime_type": "video/mp4"
+        },
+        {
+          "title": "E02",
+          "url": "https://www.diycraftsguide.com/watch/badaaljdgc.html?key=t08du178bdtb",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "video",
+          "embed": "http://media.negahestan.com/ipnx/media/series/episodes/Badal_02.mp4",
+          "mime_type": "video/mp4"
+        },
+        {
+          "title": "E03",
+          "url": "https://www.diycraftsguide.com/watch/badaaljdgc.html?key=vz01fy508pot",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "video",
+          "embed": "http://media.negahestan.com/ipnx/media/series/episodes/Badal_03.mp4",
+          "mime_type": "video/mp4"
+        }
+      ]
+    }
+  ]
+}

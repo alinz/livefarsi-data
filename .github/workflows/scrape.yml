@@ -1,0 +1,61 @@
+name: scrape
+
+on:
+  schedule:
+    - cron: "0 */2 * * *" # every 2 hours
+  workflow_dispatch:
+    inputs:
+      deep:
+        description: "Re-read every series page (catches changes the episode count misses)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+# Never run two syncs at once; a queued run waits for the current one.
+concurrency:
+  group: scrape
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      # output/series/*.json from the last commit is the cache, so only new or
+      # changed series are fetched. A partial failure still writes data.json
+      # with every series that succeeded; we commit that and fail afterwards.
+      - name: Scrape
+        id: scrape
+        run: |
+          set +e
+          go run ./cmd/scrape -o data.json ${{ inputs.deep && '-deep' || '' }}
+          code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          test -s data.json
+
+      - name: Commit changes
+        run: |
+          git add -A output data.json
+          # data.json's scraped_at changes on every run; only commit real changes.
+          if ! git diff --cached -U0 | grep '^[-+][^-+]' | grep -qv '"scraped_at"'; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898333+github-actions[bot]@users.noreply.github.com"
+          git commit -q -m "sync: $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push
+
+      - name: Report scrape failures
+        if: steps.scrape.outputs.code != '0'
+        run: |
+          echo "::error::scrape exited with code ${{ steps.scrape.outputs.code }}; some series failed and will be retried next run"
+          exit 1

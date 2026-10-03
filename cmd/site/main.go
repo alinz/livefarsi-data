@@ -65,7 +65,7 @@ func (s *Show) SearchText() string {
 }
 
 func main() {
-	in := flag.String("i", "shows.json", "input JSON file from cmd/scrape")
+	in := flag.String("i", "data.json", "input JSON file from cmd/scrape")
 	out := flag.String("o", "site", "output directory")
 	flag.Parse()
 

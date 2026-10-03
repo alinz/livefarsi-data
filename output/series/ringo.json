@@ -1,0 +1,36 @@
+{
+  "slug": "ringo",
+  "title": "Ringo",
+  "url": "https://www.diycraftsguide.com/watch/ringo.html",
+  "poster": "https://www.diycraftsguide.com/uploads/video_thumb/958.jpg",
+  "description": "Show Irani Ringo - شو ایرانی رینگو - Watch on LiveFarsi",
+  "episode_count": "3 EPISODES",
+  "seasons": [
+    {
+      "name": "Season 1",
+      "episodes": [
+        {
+          "title": "E01",
+          "url": "https://www.diycraftsguide.com/watch/ringo.html?key=011rd5zdn2lk",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/6938.jpg",
+          "player": "iframe",
+          "embed": "https://ok.ru/videoembed/9117898902173"
+        },
+        {
+          "title": "E02",
+          "url": "https://www.diycraftsguide.com/watch/ringo.html?key=8vva8lxusnmh",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/6939.jpg",
+          "player": "iframe",
+          "embed": "https://ok.ru/videoembed/9117898771101"
+        },
+        {
+          "title": "E03",
+          "url": "https://www.diycraftsguide.com/watch/ringo.html?key=ak3lzbr6j0ov",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/6945.jpg",
+          "player": "iframe",
+          "embed": "https://ok.ru/videoembed/9134275299997"
+        }
+      ]
+    }
+  ]
+}

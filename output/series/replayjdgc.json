@@ -1,0 +1,43 @@
+{
+  "slug": "replayjdgc",
+  "title": "Replay",
+  "url": "https://www.diycraftsguide.com/watch/replayjdgc.html",
+  "poster": "https://www.diycraftsguide.com/uploads/video_thumb/394.jpg",
+  "description": "Replay - Live Music Performance - برنامه ریپلی - Watch on LiveFarsi",
+  "episode_count": "4 EPISODES",
+  "seasons": [
+    {
+      "name": "Season 1",
+      "episodes": [
+        {
+          "title": "E01",
+          "url": "https://www.diycraftsguide.com/watch/replayjdgc.html?key=wndqgimb02rm",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "iframe",
+          "embed": "https://www.youtube.com/embed/dRlGdcsjvNw"
+        },
+        {
+          "title": "E02",
+          "url": "https://www.diycraftsguide.com/watch/replayjdgc.html?key=uhf4o0iulagk",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "iframe",
+          "embed": "https://www.youtube.com/embed/NXrLKjF9SGk"
+        },
+        {
+          "title": "E03",
+          "url": "https://www.diycraftsguide.com/watch/replayjdgc.html?key=3y94gex56u4m",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "iframe",
+          "embed": "https://www.youtube.com/embed/uz0UFUbGMUw"
+        },
+        {
+          "title": "E04",
+          "url": "https://www.diycraftsguide.com/watch/replayjdgc.html?key=lbxgwxu1vhat",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "iframe",
+          "embed": "https://www.youtube.com/embed/uIKiD5qFxK0"
+        }
+      ]
+    }
+  ]
+}

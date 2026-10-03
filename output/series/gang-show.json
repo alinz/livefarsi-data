@@ -1,0 +1,22 @@
+{
+  "slug": "gang-show",
+  "title": "Gang Show",
+  "url": "https://www.diycraftsguide.com/watch/gang-show.html",
+  "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1080.jpg",
+  "description": "Serial Irani Gang Show - شو ایرانی گنگ - Watch on LiveFarsi",
+  "episode_count": "1 EPISODES",
+  "seasons": [
+    {
+      "name": "Season 1",
+      "episodes": [
+        {
+          "title": "E01",
+          "url": "https://www.diycraftsguide.com/watch/gang-show.html?key=whj41xjrhms2",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7319.jpg",
+          "player": "iframe",
+          "embed": "https://ok.ru/videoembed/10357274053310"
+        }
+      ]
+    }
+  ]
+}

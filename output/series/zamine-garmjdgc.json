@@ -1,0 +1,38 @@
+{
+  "slug": "zamine-garmjdgc",
+  "title": "Zamine Garm",
+  "url": "https://www.diycraftsguide.com/watch/zamine-garmjdgc.html",
+  "poster": "https://www.diycraftsguide.com/uploads/video_thumb/318.jpg",
+  "description": "Zamine Garm 'Serial' سریال ایرانی زمینِ گرم - Watch on LiveFarsi",
+  "episode_count": "3 EPISODES",
+  "seasons": [
+    {
+      "name": "Season 01",
+      "episodes": [
+        {
+          "title": "E01",
+          "url": "https://www.diycraftsguide.com/watch/zamine-garmjdgc.html?key=l3jnjly421ah",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "video",
+          "embed": "https://cdn9.vidaneh.com/vidaneh/videos/5c148be2783f49eea347a2b7ad088856_480.mp4",
+          "mime_type": "video/mp4"
+        },
+        {
+          "title": "E02",
+          "url": "https://www.diycraftsguide.com/watch/zamine-garmjdgc.html?key=hdwmzvv0xjlm",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "video",
+          "embed": "https://cdn9.vidaneh.com/vidaneh/videos/b5ee8f7c91e04360a2de76c54d0d62a7_480.mp4",
+          "mime_type": "video/mp4"
+        },
+        {
+          "title": "E03",
+          "url": "https://www.diycraftsguide.com/watch/zamine-garmjdgc.html?key=ffwy2v1g8jcq",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "iframe",
+          "embed": "https://www.youtube.com/embed/bfJ6i2If-QU"
+        }
+      ]
+    }
+  ]
+}

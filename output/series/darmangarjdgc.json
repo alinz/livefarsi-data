@@ -1,0 +1,55 @@
+{
+  "slug": "darmangarjdgc",
+  "title": "Darmangar",
+  "url": "https://www.diycraftsguide.com/watch/darmangarjdgc.html",
+  "poster": "https://www.diycraftsguide.com/uploads/video_thumb/552.jpg",
+  "description": "Darmangar - Serial سریال درمانگر - Watch on LiveFarsi",
+  "episode_count": "5 EPISODES",
+  "seasons": [
+    {
+      "name": "Season 1",
+      "episodes": [
+        {
+          "title": "E05",
+          "url": "https://www.diycraftsguide.com/watch/darmangarjdgc.html?key=jnmld74axmx5",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/4441.jpg",
+          "player": "video",
+          "embed": "https://s1.farsicdn.site/S/Darmangar/dar5.mp4",
+          "mime_type": "video/mp4"
+        },
+        {
+          "title": "E04",
+          "url": "https://www.diycraftsguide.com/watch/darmangarjdgc.html?key=qebelajyew2f",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/4440.jpg",
+          "player": "video",
+          "embed": "https://s1.farsicdn.site/S/Darmangar/dar4.mp4",
+          "mime_type": "video/mp4"
+        },
+        {
+          "title": "E03",
+          "url": "https://www.diycraftsguide.com/watch/darmangarjdgc.html?key=xnougo18qzu7",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/4439.jpg",
+          "player": "video",
+          "embed": "https://s1.farsicdn.site/S/Darmangar/dar3.mp4",
+          "mime_type": "video/mp4"
+        },
+        {
+          "title": "E02",
+          "url": "https://www.diycraftsguide.com/watch/darmangarjdgc.html?key=lt787f6zgzm7",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/4438.jpg",
+          "player": "video",
+          "embed": "https://s1.farsicdn.site/S/Darmangar/dar2.mp4",
+          "mime_type": "video/mp4"
+        },
+        {
+          "title": "E01",
+          "url": "https://www.diycraftsguide.com/watch/darmangarjdgc.html?key=it0ch68rr7o9",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/4437.jpg",
+          "player": "video",
+          "embed": "https://s1.farsicdn.site/S/Darmangar/dar1.mp4",
+          "mime_type": "video/mp4"
+        }
+      ]
+    }
+  ]
+}

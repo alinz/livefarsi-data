@@ -31,7 +31,7 @@ import (
 
 func main() {
 	dir := flag.String("dir", "output", "folder for the per-series JSON files")
-	out := flag.String("o", "shows.json", "combined JSON file")
+	out := flag.String("o", "data.json", "combined JSON file")
 	workers := flag.Int("workers", 4, "shows processed in parallel")
 	perShow := flag.Int("per-show", 3, "episode pages fetched in parallel per show")
 	rps := flag.Float64("rps", 8, "maximum requests per second to the site, across all workers")

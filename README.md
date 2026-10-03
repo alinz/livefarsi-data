@@ -4,13 +4,27 @@ Two small Go programs (standard library only):
 
 1. **`cmd/scrape`** crawls https://www.diycraftsguide.com/serial.html (every catalog page),
    visits each show and each episode page, saves each series to `output/series/<slug>.json`
-   as soon as it's done, and finally combines them (in catalog order) into `shows.json`.
+   as soon as it's done, and finally combines them (in catalog order) into `data.json`.
 2. **`cmd/site`** turns that JSON into a static website (plain HTML/CSS/JS, no frameworks).
 
 ```sh
-go run ./cmd/scrape                         # → output/series/*.json + shows.json
-go run ./cmd/site -i shows.json -o site     # then open site/index.html
+go run ./cmd/scrape                         # → output/series/*.json + data.json
+go run ./cmd/site -o site                   # then open site/index.html
 ```
+
+## Live data on GitHub
+
+This repo is [alinz/livefarsi-data](https://github.com/alinz/livefarsi-data).
+`.github/workflows/scrape.yml` runs every 2 hours (or by hand from the Actions tab, with an
+optional *deep* checkbox). It runs the scraper incrementally against the committed
+`output/series/*.json`, rewrites `data.json`, and commits both back, but only when something other
+than `scraped_at` changed. If some series fail, everything else is still committed and the run is
+marked failed. The failed series are retried on the next run.
+
+`index.html` is a standalone copy of the generated site (same markup and CSS) that fetches
+`https://raw.githubusercontent.com/alinz/livefarsi-data/main/data.json` at load time. Open it
+from disk or host it anywhere (e.g. GitHub Pages) and it always shows the latest data.
+Routes: `#/` (list, `?q=` search), `#/<slug>` (show), `#/<slug>/s1e2` (episode).
 
 ### Scraper flags
 
@@ -21,7 +35,7 @@ go run ./cmd/site -i shows.json -o site     # then open site/index.html
 | `-rps` | 8 | hard cap on requests/second to the site, shared by all workers |
 | `-retries` | 4 | retries per page (exponential back-off) |
 | `-dir` | `output` | folder for per-series files |
-| `-o` | `shows.json` | combined file |
+| `-o` | `data.json` | combined file |
 | `-limit` | 0 | only the first N shows (for testing) |
 | `-deep` | false | re-read every series page (≈40s) to catch changes the episode count misses |
 | `-refresh` | false | ignore saved files and re-scrape everything |
@@ -34,11 +48,11 @@ Only the first run is a full crawl (~15 min). Every later run:
 2. **skips** a series whose count matches its saved file, with no requests at all;
 3. for a **new** series, scrapes it fully; for a series whose **count changed**, re-reads its
    page (1 request), keeps the player URLs already saved, and fetches only the new episode pages;
-4. rewrites `shows.json`.
+4. rewrites `data.json`.
 
 So a run with nothing new takes ~3s, and a few new episodes add a second or two. The log lists
 what changed (`+ koori: new series, 12 episodes`, `~ vaahshi: 2 new episode(s)`) and ends with a
-summary line. Series that drop out of the catalog stay on disk but are left out of `shows.json`.
+summary line. Series that drop out of the catalog stay on disk but are left out of `data.json`.
 
 The count check misses edits that don't change the count (e.g. an episode swapped for another),
 so run with `-deep` now and then; it still only fetches episode pages it hasn't seen.

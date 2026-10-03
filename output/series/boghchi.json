@@ -1,0 +1,50 @@
+{
+  "slug": "boghchi",
+  "title": "Boghchi",
+  "url": "https://www.diycraftsguide.com/watch/boghchi.html",
+  "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1021.jpg",
+  "description": "Serial Irani Tanz Boghchi - سریال ایرانی طنز بوقچی - Watch on LiveFarsi",
+  "episode_count": "5 EPISODES",
+  "seasons": [
+    {
+      "name": "Season 1",
+      "episodes": [
+        {
+          "title": "E01",
+          "url": "https://www.diycraftsguide.com/watch/boghchi.html?key=ur0xlpi8wl6m",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "iframe",
+          "embed": "/FS/Serial/Boghchi/1.html"
+        },
+        {
+          "title": "E02",
+          "url": "https://www.diycraftsguide.com/watch/boghchi.html?key=f3lls2x5ts65",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "iframe",
+          "embed": "/FS/Serial/Boghchi/2.html"
+        },
+        {
+          "title": "E03",
+          "url": "https://www.diycraftsguide.com/watch/boghchi.html?key=plr94aks0vvi",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "iframe",
+          "embed": "/FS/Serial/Boghchi/3.html"
+        },
+        {
+          "title": "E04",
+          "url": "https://www.diycraftsguide.com/watch/boghchi.html?key=3bs73arp2x42",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "iframe",
+          "embed": "/FS/Serial/Boghchi/4.html"
+        },
+        {
+          "title": "E05",
+          "url": "https://www.diycraftsguide.com/watch/boghchi.html?key=lqu758ooxj31",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "iframe",
+          "embed": "/FS/Serial/Boghchi/5.html"
+        }
+      ]
+    }
+  ]
+}

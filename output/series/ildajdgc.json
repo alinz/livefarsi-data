@@ -1,0 +1,47 @@
+{
+  "slug": "ildajdgc",
+  "title": "Ilda",
+  "url": "https://www.diycraftsguide.com/watch/ildajdgc.html",
+  "poster": "https://www.diycraftsguide.com/uploads/video_thumb/336.jpg",
+  "description": "Ilda - Serial سریال ایرانی ایلدا - Watch on LiveFarsi",
+  "episode_count": "4 EPISODES",
+  "seasons": [
+    {
+      "name": "Season 1",
+      "episodes": [
+        {
+          "title": "E01",
+          "url": "https://www.diycraftsguide.com/watch/ildajdgc.html?key=p5rmrsehsy97",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "video",
+          "embed": "https://v.delgarm.com/video/835/2020/09/26/1601141989_X4cJ7.mp4",
+          "mime_type": "video/mp4"
+        },
+        {
+          "title": "E02",
+          "url": "https://www.diycraftsguide.com/watch/ildajdgc.html?key=4ywl6bp54ddv",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "video",
+          "embed": "https://v.delgarm.com/video/835/2020/09/27/1601197909_J9wD9.mp4",
+          "mime_type": "video/mp4"
+        },
+        {
+          "title": "E03",
+          "url": "https://www.diycraftsguide.com/watch/ildajdgc.html?key=hdcdrnex6lp0",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "video",
+          "embed": "https://v.delgarm.com/video/835/2020/09/28/1601283534_F4jY9.mp4",
+          "mime_type": "video/mp4"
+        },
+        {
+          "title": "E04",
+          "url": "https://www.diycraftsguide.com/watch/ildajdgc.html?key=ynfeipl4325t",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
+          "player": "video",
+          "embed": "https://s-v1.tamasha.com/statics/videos_download/ee/fb/KBRM4_eefbc289c71cf11e0d77bc4db3ff1273363d3424_n_470.mp4",
+          "mime_type": "video/mp4"
+        }
+      ]
+    }
+  ]
+}
