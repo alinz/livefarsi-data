@@ -4,7 +4,7 @@
   "url": "https://www.diycraftsguide.com/watch/eteraf-mikonam.html",
   "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1148.jpg",
   "description": "Serial Irani Eteraf Mikonam - سریال ایرانی اعتراف می کنم - LiveFarsi",
-  "episode_count": "9 EPISODES",
+  "episode_count": "10 EPISODES",
   "seasons": [
     {
       "name": "Season 01",
@@ -71,6 +71,13 @@
           "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7567.jpg",
           "player": "iframe",
           "embed": "https://ok.ru/videoembed/16967998704364"
+        },
+        {
+          "title": "E10",
+          "url": "https://www.diycraftsguide.com/watch/eteraf-mikonam.html?key=i5rspjssglgg",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7572.jpg",
+          "player": "iframe",
+          "embed": "https://ok.ru/videoembed/17052454423276"
         }
       ]
     }
