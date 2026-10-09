@@ -1,7 +1,301 @@
 {
-  "scraped_at": "2026-10-06T10:51:12Z",
+  "scraped_at": "2026-10-09T21:56:13Z",
   "source": "https://www.diycraftsguide.com/serial.html",
   "shows": [
+    {
+      "slug": "yal",
+      "title": "Yal",
+      "url": "https://www.diycraftsguide.com/watch/yal.html",
+      "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1165.jpg",
+      "description": "Serial Irani Yal - سریال ایرانی یال - LiveFarsi\r\n\r\nYal DIY Craft Tutorial: Create Beautiful Handmade Wall Art with Simple Materials",
+      "episode_count": "1 EPISODES",
+      "seasons": [
+        {
+          "name": "Season 01",
+          "episodes": [
+            {
+              "title": "Episode 01",
+              "url": "https://www.diycraftsguide.com/watch/yal.html?key=br9ejb0ttcu6",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7576.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17092178873068"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "bad-naam",
+      "title": "Bad Naam",
+      "url": "https://www.diycraftsguide.com/watch/bad-naam.html",
+      "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1114.jpg",
+      "description": "Bad Naam DIY Craft Tutorial: Turning Imperfection into Beautiful Handmade Art\r\nSerial Irani Bad Naam سریال ایرانی بدنام - Watch on LiveFarsi",
+      "episode_count": "27 EPISODES",
+      "seasons": [
+        {
+          "name": "Season 1",
+          "episodes": [
+            {
+              "title": "E01",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=gew844uffr51",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7407.jpg",
+              "player": "video",
+              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad1.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E02",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=95xhfq47tyd0",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7432.jpg",
+              "player": "video",
+              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad2.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E03",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=dzofvbjwnpi7",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7438.jpg",
+              "player": "video",
+              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad3.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E04",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=ddlytq0p7m9v",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7446.jpg",
+              "player": "video",
+              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad4.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E05",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=ddf8v0jfbkjg",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7453.jpg",
+              "player": "video",
+              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad5.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E06",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=078qyxrcvmy1",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7459.jpg",
+              "player": "video",
+              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad6.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E07",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=vt4gihrlfym7",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7465.jpg",
+              "player": "video",
+              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad7.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E08",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=rgxom0b90h4g",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7472.jpg",
+              "player": "video",
+              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad8.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E09",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=v7tfntpma2ov",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7478.jpg",
+              "player": "video",
+              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad9.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E10",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=du1df94if4si",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7484.jpg",
+              "player": "video",
+              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad10.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E11",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=eu9bart0fm0n",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7489.jpg",
+              "player": "video",
+              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad11.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E12",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=rmjar3xc2hsh",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7495.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/15890753260268"
+            },
+            {
+              "title": "E13",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=24eld80i52ol",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7499.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/15961374001900"
+            },
+            {
+              "title": "E14",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=xr7aeeiwx0rt",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7502.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16058124733164"
+            },
+            {
+              "title": "E15",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=3wqyybngbte4",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7507.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16145132227308"
+            },
+            {
+              "title": "E16",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=33h68639bh0m",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7512.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16222654958316"
+            },
+            {
+              "title": "E17",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=y8wny6zy95q4",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7517.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16308177210092"
+            },
+            {
+              "title": "E18",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=ns9yba25etac",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7521.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16384569641708"
+            },
+            {
+              "title": "E19",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=p0v6hbwqmhcl",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7527.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16463466138348"
+            },
+            {
+              "title": "E20",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=3am90kocfoob",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7532.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16535672654572"
+            },
+            {
+              "title": "E21",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=iuoxxan775xw",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7536.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16616959511276"
+            },
+            {
+              "title": "E22",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=yz7v4xmep272",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7542.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16695618308844"
+            },
+            {
+              "title": "E23",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=ampkzrf5decq",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7553.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16820402260716"
+            },
+            {
+              "title": "E24",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=hmxc217xin9h",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7557.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16850856184556"
+            },
+            {
+              "title": "E25",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=kc8xgdrmx134",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7562.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16925196487404"
+            },
+            {
+              "title": "E26",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=7nocpk3ijybd",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7568.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17012300778220"
+            },
+            {
+              "title": "E27 - End",
+              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=f4jhr5xucaeh",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7575.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17092176251628"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "nim-rokh",
+      "title": "Nim Rokh",
+      "url": "https://www.diycraftsguide.com/watch/nim-rokh.html",
+      "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1154.jpg",
+      "description": "Serial Irani Nim Rokh - سریال ایرانی نیم رخ - LiveFarsi\r\nNim Rokh DIY Craft Tutorial: Create a Stunning Half-and-Half Mixed Media Art Piece",
+      "episode_count": "6 EPISODES",
+      "seasons": [
+        {
+          "name": "Season 01",
+          "episodes": [
+            {
+              "title": "E01",
+              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=wdl4f9rljg6c",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7543.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16695618374380"
+            },
+            {
+              "title": "E02",
+              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=66c7z9s9w9ba",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7548.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16772934470380"
+            },
+            {
+              "title": "E03",
+              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=esk64k13ulrq",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7555.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16850856250092"
+            },
+            {
+              "title": "E04",
+              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=q03bh0iz2d56",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7564.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16944101722860"
+            },
+            {
+              "title": "E05",
+              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=6vi37i8i8xdo",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7571.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17028962061036"
+            },
+            {
+              "title": "E06",
+              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=4rzvbelnwk8m",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7574.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17092178807532"
+            }
+          ]
+        }
+      ]
+    },
     {
       "slug": "bamdad-khomar-kamel",
       "title": "Bamdad Khomar",
@@ -296,56 +590,6 @@
       ]
     },
     {
-      "slug": "nim-rokh",
-      "title": "Nim Rokh",
-      "url": "https://www.diycraftsguide.com/watch/nim-rokh.html",
-      "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1154.jpg",
-      "description": "Serial Irani Nim Rokh - سریال ایرانی نیم رخ - LiveFarsi\r\nNim Rokh DIY Craft Tutorial: Create a Stunning Half-and-Half Mixed Media Art Piece",
-      "episode_count": "5 EPISODES",
-      "seasons": [
-        {
-          "name": "Season 01",
-          "episodes": [
-            {
-              "title": "E01",
-              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=wdl4f9rljg6c",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7543.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16695618374380"
-            },
-            {
-              "title": "E02",
-              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=66c7z9s9w9ba",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7548.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16772934470380"
-            },
-            {
-              "title": "E03",
-              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=esk64k13ulrq",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7555.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16850856250092"
-            },
-            {
-              "title": "E04",
-              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=q03bh0iz2d56",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7564.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16944101722860"
-            },
-            {
-              "title": "E05",
-              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=6vi37i8i8xdo",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7571.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/17028962061036"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "slug": "mard-3-hezar-chehreh",
       "title": "Mard 3 Hezar Chehreh",
       "url": "https://www.diycraftsguide.com/watch/mard-3-hezar-chehreh.html",
@@ -454,214 +698,6 @@
               "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7569.jpg",
               "player": "iframe",
               "embed": "https://ok.ru/videoembed/16990934928108"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "slug": "bad-naam",
-      "title": "Bad Naam",
-      "url": "https://www.diycraftsguide.com/watch/bad-naam.html",
-      "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1114.jpg",
-      "description": "Bad Naam DIY Craft Tutorial: Turning Imperfection into Beautiful Handmade Art\r\nSerial Irani Bad Naam سریال ایرانی بدنام - Watch on LiveFarsi",
-      "episode_count": "26 EPISODES",
-      "seasons": [
-        {
-          "name": "Season 1",
-          "episodes": [
-            {
-              "title": "E01",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=gew844uffr51",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7407.jpg",
-              "player": "video",
-              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad1.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E02",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=95xhfq47tyd0",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7432.jpg",
-              "player": "video",
-              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad2.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E03",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=dzofvbjwnpi7",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7438.jpg",
-              "player": "video",
-              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad3.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E04",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=ddlytq0p7m9v",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7446.jpg",
-              "player": "video",
-              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad4.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E05",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=ddf8v0jfbkjg",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7453.jpg",
-              "player": "video",
-              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad5.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E06",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=078qyxrcvmy1",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7459.jpg",
-              "player": "video",
-              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad6.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E07",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=vt4gihrlfym7",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7465.jpg",
-              "player": "video",
-              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad7.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E08",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=rgxom0b90h4g",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7472.jpg",
-              "player": "video",
-              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad8.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E09",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=v7tfntpma2ov",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7478.jpg",
-              "player": "video",
-              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad9.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E10",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=du1df94if4si",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7484.jpg",
-              "player": "video",
-              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad10.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E11",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=eu9bart0fm0n",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7489.jpg",
-              "player": "video",
-              "embed": "https://farsicdn.site/ir/S/BadNam/s1/bad11.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E12",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=rmjar3xc2hsh",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7495.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/15890753260268"
-            },
-            {
-              "title": "E13",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=24eld80i52ol",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7499.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/15961374001900"
-            },
-            {
-              "title": "E14",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=xr7aeeiwx0rt",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7502.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16058124733164"
-            },
-            {
-              "title": "E15",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=3wqyybngbte4",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7507.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16145132227308"
-            },
-            {
-              "title": "E16",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=33h68639bh0m",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7512.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16222654958316"
-            },
-            {
-              "title": "E17",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=y8wny6zy95q4",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7517.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16308177210092"
-            },
-            {
-              "title": "E18",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=ns9yba25etac",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7521.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16384569641708"
-            },
-            {
-              "title": "E19",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=p0v6hbwqmhcl",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7527.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16463466138348"
-            },
-            {
-              "title": "E20",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=3am90kocfoob",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7532.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16535672654572"
-            },
-            {
-              "title": "E21",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=iuoxxan775xw",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7536.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16616959511276"
-            },
-            {
-              "title": "E22",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=yz7v4xmep272",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7542.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16695618308844"
-            },
-            {
-              "title": "E23",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=ampkzrf5decq",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7553.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16820402260716"
-            },
-            {
-              "title": "E24",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=hmxc217xin9h",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7557.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16850856184556"
-            },
-            {
-              "title": "E25",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=kc8xgdrmx134",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7562.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16925196487404"
-            },
-            {
-              "title": "E26",
-              "url": "https://www.diycraftsguide.com/watch/bad-naam.html?key=7nocpk3ijybd",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7568.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/17012300778220"
             }
           ]
         }
