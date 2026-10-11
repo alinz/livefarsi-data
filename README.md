@@ -19,7 +19,7 @@ about 20 minutes; after that, a sync only fetches what changed and takes seconds
 | `GET /rsync/start` | start a sync in the background: `202` with the status, or `409` if one is already running. `?deep=1` re-checks every title instead of trusting the sites' listings |
 | `GET /rsync/status` | the current or last sync: `state` (`IDLE`, `RUNNING`, `MERGING`, `DONE`, `FAILED`), start and finish times, per-source progress and errors, and recent log lines |
 | `GET /rsync/data` | the merged catalog as JSON, gzip-compressed (~3 MB → a few hundred KB), with an `ETag` |
-| `GET /config` | placeholder that returns `{}`; fill it in at `internal/server/config.go` |
+| `GET /config` | the routing config [baker](https://ella.to/baker) pings to proxy `farsi.ella.to/*` here (`internal/server/config.go`) |
 
 ## Data directory
 

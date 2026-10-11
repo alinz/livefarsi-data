@@ -1,0 +1,26 @@
+services:
+  movies:
+    container_name: movies
+    user: "1001:1001"
+    image: farsi.ella.to:latest
+    restart: on-failure
+
+    labels:
+      - "baker.enable=true"
+      - "baker.network=baker"
+      - "baker.service.port=8080"
+      - "baker.service.ping=/config"
+      - "logging=enabled"
+
+    # The sync data (each source's files, the merged catalog, the sync status)
+    # lives on the host, next to this file, so restarts and redeploys keep it.
+    volumes:
+      - ./data:/app/data
+
+    networks:
+      - baker
+
+networks:
+  baker:
+    name: baker
+    external: true

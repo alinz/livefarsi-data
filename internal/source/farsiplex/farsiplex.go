@@ -20,9 +20,9 @@ import (
 	"strings"
 	"sync/atomic"
 
-	"ella.to/movies/internal/catalog"
-	"ella.to/movies/internal/fetch"
-	"ella.to/movies/internal/source"
+	"farsi.ella.to/internal/catalog"
+	"farsi.ella.to/internal/fetch"
+	"farsi.ella.to/internal/source"
 )
 
 const baseURL = "https://farsiplex.com"

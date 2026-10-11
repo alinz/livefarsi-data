@@ -14,11 +14,11 @@ import (
 	"syscall"
 	"time"
 
-	"ella.to/movies/internal/rsync"
-	"ella.to/movies/internal/server"
-	"ella.to/movies/internal/source"
-	"ella.to/movies/internal/source/diycraftsguide"
-	"ella.to/movies/internal/source/farsiplex"
+	"farsi.ella.to/internal/rsync"
+	"farsi.ella.to/internal/server"
+	"farsi.ella.to/internal/source"
+	"farsi.ella.to/internal/source/diycraftsguide"
+	"farsi.ella.to/internal/source/farsiplex"
 )
 
 func main() {

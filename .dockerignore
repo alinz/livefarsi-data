@@ -1,0 +1,4 @@
+.git
+data
+deploy/server/docker.tar.gz
+*.tmp

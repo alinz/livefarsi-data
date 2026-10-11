@@ -8,8 +8,8 @@ import (
 	"context"
 	"sync"
 
-	"ella.to/movies/internal/catalog"
-	"ella.to/movies/internal/fetch"
+	"farsi.ella.to/internal/catalog"
+	"farsi.ella.to/internal/fetch"
 )
 
 // Source is one site, such as diycraftsguide.com or farsiplex.com.

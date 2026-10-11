@@ -4,7 +4,7 @@
 //	GET /rsync/start    start a sync (?deep=1 re-checks every title); 202, or 409 if one is running
 //	GET /rsync/status   the current or last sync's status
 //	GET /rsync/data     the merged catalog as JSON, gzip-compressed
-//	GET /config         site configuration (see config.go)
+//	GET /config         baker routing config for farsi.ella.to (see config.go)
 package server
 
 import (
@@ -15,8 +15,8 @@ import (
 	"net/http"
 	"strings"
 
-	"ella.to/movies/internal/rsync"
-	"ella.to/movies/web"
+	"farsi.ella.to/internal/rsync"
+	"farsi.ella.to/web"
 )
 
 type Server struct {
