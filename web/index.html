@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Persian TV &amp; Movies</title>
+<!--
+  Served by cmd/server at /. Loads the merged catalog from /rsync/data and
+  drives syncs through /rsync/start and /rsync/status.
+  Routes: #/series and #/movies (lists, ?q= search), #/series/<id>,
+  #/series/<id>/s1e2 (an episode), #/movies/<id>.
+-->
+<style>
+:root {
+  --bg: #0e0f13;
+  --surface: #181a21;
+  --surface-2: #22252e;
+  --text: #eceef3;
+  --muted: #9aa0ad;
+  --accent: #e5484d;
+  --ok: #3dd68c;
+  --radius: 10px;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Vazirmatn", Tahoma, sans-serif;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; }
+button { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+
+.wrap { max-width: 1280px; margin: 0 auto; padding: 20px 16px 60px; }
+
+/* Top bar */
+.topbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px;
+  padding: 12px 16px;
+  background: rgba(14, 15, 19, .9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--surface-2);
+}
+.brand { font-weight: 700; font-size: 18px; white-space: nowrap; }
+.brand:hover { color: var(--accent); }
+
+.tabs { display: flex; gap: 4px; padding: 3px; background: var(--surface); border-radius: 999px; }
+.tabs a { padding: 5px 14px; border-radius: 999px; color: var(--muted); font-weight: 600; }
+.tabs a:hover { color: var(--text); }
+.tabs a.on { background: var(--surface-2); color: var(--text); }
+
+.search { position: relative; flex: 1 1 220px; max-width: 480px; margin-left: auto; }
+.search svg {
+  position: absolute; left: 12px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%);
+  fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round;
+}
+.search input {
+  width: 100%; padding: 9px 14px 9px 38px;
+  font: inherit; color: var(--text);
+  background: var(--surface); border: 1px solid var(--surface-2); border-radius: 999px;
+  outline: none;
+}
+.search input:focus { border-color: var(--accent); }
+
+/* Sync control */
+.sync { position: relative; display: flex; align-items: center; gap: 8px; }
+.sync-btn {
+  padding: 7px 14px; cursor: pointer; font-weight: 600;
+  background: var(--surface-2); border: 0; border-radius: 999px;
+}
+.sync-btn:hover:not(:disabled) { background: var(--accent); }
+.sync-btn:disabled { opacity: .5; cursor: default; }
+.sync-info {
+  padding: 4px 6px; cursor: pointer; background: none; border: 0;
+  color: var(--muted); font-size: 13px; white-space: nowrap;
+}
+.sync-info:hover { color: var(--text); }
+.dot { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; background: var(--muted); }
+.dot.DONE { background: var(--ok); }
+.dot.FAILED { background: var(--accent); }
+.dot.RUNNING, .dot.MERGING { background: #f5a524; animation: pulse 1s infinite alternate; }
+@keyframes pulse { to { opacity: .3; } }
+
+.sync-panel {
+  position: absolute; right: 0; top: calc(100% + 10px); width: min(440px, calc(100vw - 32px));
+  padding: 14px; background: var(--surface); border: 1px solid var(--surface-2); border-radius: var(--radius);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .5); font-size: 13px;
+}
+.sync-panel h3 { margin: 0 0 8px; font-size: 14px; }
+.sync-panel .muted { color: var(--muted); }
+.src { margin: 10px 0; }
+.src-head { display: flex; justify-content: space-between; gap: 8px; }
+.bar { height: 6px; margin-top: 5px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--accent); transition: width .3s; }
+.err { color: var(--accent); }
+.log {
+  max-height: 180px; overflow: auto; margin: 10px 0 0; padding: 8px;
+  background: var(--bg); border-radius: 6px;
+  font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; word-break: break-word;
+}
+
+.notice {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  padding: 8px 16px; background: #1d2a22; color: var(--ok); font-weight: 600;
+}
+.notice button { padding: 4px 12px; cursor: pointer; background: var(--ok); color: #000; border: 0; border-radius: 999px; font-weight: 700; }
+
+.count { color: var(--muted); margin: 0 0 14px; }
+.empty { text-align: center; color: var(--muted); padding: 60px 0; }
+.empty a, .empty button.link { color: var(--accent); text-decoration: underline; background: none; border: 0; cursor: pointer; padding: 0; }
+
+/* Grid */
+.grid {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+.card a { display: block; }
+.poster {
+  position: relative; aspect-ratio: 2 / 3; overflow: hidden;
+  border-radius: var(--radius); background: var(--surface);
+}
+.poster img { width: 100%; height: 100%; object-fit: cover; transition: transform .25s; }
+.card a:hover .poster img, .card a:focus-visible .poster img { transform: scale(1.05); }
+.card a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: var(--radius); }
+.badge {
+  position: absolute; top: 8px; right: 8px;
+  padding: 2px 8px; font-size: 12px; font-weight: 600;
+  background: rgba(0, 0, 0, .75); border-radius: 999px;
+}
+.card h2 { margin: 8px 2px 0; font-size: 14px; font-weight: 600; line-height: 1.3; }
+.card .fa { margin: 2px 2px 0; color: var(--muted); font-size: 13px; }
+
+/* Title page */
+.hero { display: flex; gap: 24px; align-items: flex-start; margin-bottom: 24px; }
+.hero-poster { width: 160px; aspect-ratio: 2 / 3; object-fit: cover; border-radius: var(--radius); flex-shrink: 0; background: var(--surface); }
+.hero h1 { margin: 0 0 4px; font-size: 30px; line-height: 1.2; }
+.hero .fa { margin: 0 0 8px; color: var(--muted); font-size: 18px; }
+.desc { margin: 0 0 8px; max-width: 70ch; white-space: pre-line; }
+.meta { margin: 0; color: var(--muted); }
+.meta a { text-decoration: underline; }
+
+.player-wrap { scroll-margin-top: 80px; margin-bottom: 32px; }
+.player {
+  position: relative; aspect-ratio: 16 / 9; width: 100%;
+  background: #000; border-radius: var(--radius); overflow: hidden;
+}
+.player iframe, .player video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.player-empty {
+  position: absolute; inset: 0; padding: 20px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  text-align: center; color: var(--muted);
+}
+.player-empty p { margin: 0; }
+.player-empty a { color: var(--accent); text-decoration: underline; }
+.player-bar { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+.player-bar span { flex: 1; text-align: center; font-weight: 600; }
+.player-bar button {
+  cursor: pointer; padding: 8px 14px; background: var(--surface-2); border: 0; border-radius: 8px;
+}
+.player-bar button:hover:not(:disabled) { background: var(--accent); }
+.player-bar button:disabled { opacity: .35; cursor: default; }
+.sources { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; font-size: 13px; }
+.sources > span { color: var(--muted); margin-right: 2px; }
+.sources button {
+  cursor: pointer; padding: 4px 10px; background: var(--surface); border: 1px solid var(--surface-2); border-radius: 999px;
+}
+.sources button:hover { border-color: var(--muted); }
+.sources button.on { border-color: var(--accent); color: #fff; background: rgba(229, 72, 77, .15); }
+
+.season h2 { font-size: 20px; margin: 28px 0 12px; }
+.episodes {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+.episode {
+  display: block; width: 100%; padding: 0; text-align: left; cursor: pointer;
+  background: var(--surface); border: 2px solid transparent; border-radius: var(--radius);
+  overflow: hidden;
+}
+.episode:hover, .episode:focus-visible { border-color: var(--surface-2); outline: none; }
+.episode.active { border-color: var(--accent); }
+.episode:disabled { opacity: .4; cursor: not-allowed; }
+.thumb { position: relative; display: block; aspect-ratio: 16 / 9; background: var(--surface-2); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+.play {
+  position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%);
+  border-radius: 50%; background: rgba(0, 0, 0, .6); opacity: 0; transition: opacity .2s;
+}
+.play::after {
+  content: ""; position: absolute; left: 17px; top: 13px;
+  border-style: solid; border-width: 9px 0 9px 15px; border-color: transparent transparent transparent #fff;
+}
+.episode:hover .play, .episode.active .play { opacity: 1; }
+.episode.active .play { background: var(--accent); }
+.ep-title { display: block; padding: 8px 10px; font-weight: 600; }
+
+@media (max-width: 700px) {
+  .search { order: 5; flex-basis: 100%; max-width: none; }
+  .sync { margin-left: auto; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; }
+  .episodes { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+  .hero { gap: 14px; }
+  .hero-poster { width: 100px; }
+  .hero h1 { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#/series">Persian TV</a>
+  <nav class="tabs" aria-label="Catalog">
+    <a href="#/series" id="tab-series">Series</a>
+    <a href="#/movies" id="tab-movies">Movies</a>
+  </nav>
+  <div class="search" id="search-box">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="search" type="search" placeholder="Search…  (press /)" autocomplete="off" aria-label="Search">
+  </div>
+  <div class="sync">
+    <button type="button" class="sync-btn" id="sync-btn">Sync</button>
+    <button type="button" class="sync-info" id="sync-info" aria-expanded="false" aria-controls="sync-panel"><span class="dot" id="sync-dot"></span><span id="sync-text">…</span></button>
+    <div class="sync-panel" id="sync-panel" hidden></div>
+  </div>
+</header>
+<div class="notice" id="notice" hidden>New data is ready. <button type="button" id="reload">Load it</button></div>
+
+<main class="wrap" id="list-view">
+  <p class="count" id="count" aria-live="polite">Loading…</p>
+  <ul class="grid" id="grid"></ul>
+  <p class="empty" id="empty" hidden></p>
+</main>
+
+<main class="wrap" id="title-view" hidden></main>
+
+<script>
+(function () {
+  var SOURCE_NAMES = { diycraftsguide: 'LiveFarsi', farsiplex: 'FarsiPlex' };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var input = $('search'), grid = $('grid'), count = $('count'), empty = $('empty');
+  var listView = $('list-view'), titleView = $('title-view');
+
+  var cat = { series: [], movies: [] };
+  var byId = { series: {}, movies: {} };
+  var kind = 'series';          // the list being shown
+  var cards = [];               // <li> elements of that list
+  var listScroll = {};          // scroll position per list, restored on Back
+  var dataETag = '';
+  var stopPlayer = function () {};
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function el(tag, attrs, textContent) {
+    var e = document.createElement(tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (textContent != null) e.textContent = textContent;
+    return e;
+  }
+
+  function ago(iso) {
+    if (!iso) return '';
+    var mins = Math.round((Date.now() - new Date(iso)) / 60000);
+    if (!(mins >= 0)) return '';
+    if (mins < 1) return 'just now';
+    if (mins < 60) return mins + ' min ago';
+    if (mins < 48 * 60) return Math.round(mins / 60) + ' h ago';
+    return Math.round(mins / 1440) + ' days ago';
+  }
+
+  function sourceName(s) { return SOURCE_NAMES[s] || s; }
+
+  // Playable episodes (or 1/0 for a movie).
+  function playable(t) {
+    if (!t.seasons) return (t.players || []).length ? 1 : 0;
+    var n = 0;
+    t.seasons.forEach(function (se) {
+      se.episodes.forEach(function (ep) { if ((ep.players || []).length) n++; });
+    });
+    return n;
+  }
+
+  // Ignore spaces, dashes and punctuation so "bamdad khomar" matches "bamdad-khomar".
+  function norm(s) {
+    return s.toLowerCase().replace(/[\s‌\-_.,:;'"()]+/g, '').replace(/ي/g, 'ی').replace(/ك/g, 'ک');
+  }
+
+  // ---- data ----
+
+  function load() {
+    return fetch('/rsync/data', { cache: 'no-cache' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        dataETag = r.headers.get('ETag') || '';
+        return r.json();
+      })
+      .then(function (data) {
+        cat = { series: data.series || [], movies: data.movies || [], updated_at: data.updated_at };
+        byId = { series: {}, movies: {} };
+        ['series', 'movies'].forEach(function (k) {
+          cat[k].forEach(function (t) { byId[k][t.id] = t; });
+        });
+        $('notice').hidden = true;
+        renderList(kind, true);
+        route();
+      })
+      .catch(function (err) {
+        count.textContent = '';
+        empty.innerHTML = 'Couldn’t load the catalog (' + esc(err.message) + '). <a href="">Try again</a>';
+        empty.hidden = false;
+      });
+  }
+
+  // ---- list ----
+
+  function renderList(k, force) {
+    if (k === kind && !force && cards.length) return;
+    kind = k;
+    var titles = cat[k];
+    var path = '#/' + k + '/';
+    grid.innerHTML = titles.map(function (t) {
+      var n = playable(t);
+      var badge = k === 'series' ? n + ' ep' : '';
+      return '<li class="card">' +
+        '<a href="' + path + encodeURIComponent(t.id) + '">' +
+          '<div class="poster">' +
+            (t.poster ? '<img src="' + esc(t.poster) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">' : '') +
+            (badge ? '<span class="badge">' + esc(badge) + '</span>' : '') +
+          '</div>' +
+          '<h2>' + esc(t.title) + '</h2>' +
+          (t.title_fa ? '<p class="fa" dir="rtl">' + esc(t.title_fa) + '</p>' : '') +
+        '</a></li>';
+    }).join('');
+    cards = Array.prototype.slice.call(grid.children);
+    cards.forEach(function (c, i) {
+      var t = titles[i];
+      c._key = norm([t.title, t.title_fa || '', t.id, t.description || ''].join(' '));
+    });
+    input.placeholder = 'Search ' + titles.length + ' ' + (k === 'series' ? 'series' : 'movies') + '…  (press /)';
+    applySearch();
+  }
+
+  function applySearch() {
+    var words = input.value.toLowerCase().split(/\s+/).map(norm).filter(Boolean);
+    var shown = 0;
+    cards.forEach(function (c) {
+      var ok = words.every(function (w) { return c._key.indexOf(w) !== -1; });
+      c.hidden = !ok;
+      if (ok) shown++;
+    });
+    var total = cards.length, noun = kind === 'series' ? 'series' : (total === 1 ? 'movie' : 'movies');
+    count.textContent = words.length ? shown + ' of ' + total + ' ' + noun : total + ' ' + noun;
+    if (!total) {
+      empty.innerHTML = 'Nothing here yet. <button type="button" class="link" data-sync>Run a sync</button> to fetch the catalog.';
+    } else {
+      empty.textContent = 'Nothing matches your search.';
+    }
+    empty.hidden = shown !== 0;
+
+    var url = new URL(location.href);
+    if (input.value) url.searchParams.set('q', input.value); else url.searchParams.delete('q');
+    history.replaceState(null, '', url);
+  }
+
+  // ---- title page ----
+
+  function renderTitle(k, t, epId) {
+    var seasons = t.seasons || [];
+    var meta = [];
+    if (k === 'series') {
+      meta.push(seasons.length + ' season' + (seasons.length !== 1 ? 's' : ''));
+      meta.push(playable(t) + ' episodes');
+    }
+    meta.push('on ' + (t.links || []).map(function (l) {
+      return '<a href="' + esc(l.url) + '" target="_blank" rel="noopener noreferrer">' + esc(sourceName(l.source)) + '</a>';
+    }).join(', '));
+
+    var html =
+      '<section class="hero">' +
+        (t.poster ? '<img class="hero-poster" src="' + esc(t.poster) + '" alt="" referrerpolicy="no-referrer">' : '') +
+        '<div>' +
+          '<h1>' + esc(t.title) + '</h1>' +
+          (t.title_fa ? '<p class="fa" dir="rtl">' + esc(t.title_fa) + '</p>' : '') +
+          (t.description ? '<p class="desc" dir="auto">' + esc(t.description) + '</p>' : '') +
+          '<p class="meta">' + meta.join(' · ') + '</p>' +
+        '</div>' +
+      '</section>' +
+      '<section class="player-wrap" id="player-wrap">' +
+        '<div class="player" id="player"><div class="player-empty">' +
+          (k === 'series' ? 'Choose an episode below to start watching' : 'No player available') +
+        '</div></div>' +
+        (k === 'series'
+          ? '<div class="player-bar">' +
+              '<button type="button" id="prev" disabled>‹ Previous</button>' +
+              '<span id="now-playing"></span>' +
+              '<button type="button" id="next" disabled>Next ›</button>' +
+            '</div>'
+          : '') +
+        '<div class="sources" id="sources" hidden></div>' +
+      '</section>';
+
+    seasons.forEach(function (season, si) {
+      html += '<section class="season"><h2>' + esc(season.name) + '</h2><ol class="episodes">';
+      season.episodes.forEach(function (ep, ei) {
+        var ok = (ep.players || []).length > 0;
+        html += '<li><button type="button" class="episode" id="s' + (si + 1) + 'e' + (ei + 1) + '"' +
+          ' data-si="' + si + '" data-ei="' + ei + '"' + (ok ? '' : ' disabled') + '>' +
+          '<span class="thumb">' +
+            (ep.thumbnail ? '<img src="' + esc(ep.thumbnail) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">' : '') +
+            '<span class="play" aria-hidden="true"></span>' +
+          '</span>' +
+          '<span class="ep-title">' + esc(ep.title) + '</span>' +
+          '</button></li>';
+      });
+      html += '</ol></section>';
+    });
+
+    titleView.innerHTML = html;
+    document.title = t.title + ' · Persian TV';
+    window.scrollTo(0, 0);
+    initPlayer(k, t, epId);
+  }
+
+  function initPlayer(k, t, startId) {
+    var player = $('player'), wrap = $('player-wrap'), sources = $('sources');
+    var nowPlaying = $('now-playing'), prevBtn = $('prev'), nextBtn = $('next');
+    var storeKey = 'last:' + k + ':' + t.id;
+    var current = -1;
+    var episodes = Array.prototype.slice.call(titleView.querySelectorAll('.episode:not([disabled])'));
+
+    stopPlayer = function () { player.textContent = ''; };
+
+    function failed(src, msg) {
+      player.textContent = '';
+      var box = el('div', { class: 'player-empty' });
+      box.appendChild(el('p', {}, msg));
+      var a = el('a', { href: src, target: '_blank', rel: 'noopener noreferrer' }, 'Open the video directly');
+      box.appendChild(a);
+      player.appendChild(box);
+    }
+
+    // Prefer the source (and quality) the viewer picked last time.
+    function preferred(list) {
+      var pref = '';
+      try { pref = localStorage.getItem('player-pref') || ''; } catch (e) {}
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].source + '|' + (list[i].label || '') === pref) return i;
+      }
+      for (var j = 0; j < list.length; j++) {
+        if (pref.indexOf(list[j].source + '|') === 0) return j;
+      }
+      return 0;
+    }
+
+    function show(list, idx, auto, onEnded) {
+      var p = list[idx];
+      player.textContent = '';
+      if (p.type === 'video') {
+        var mime = p.mime || 'video/mp4';
+        var video = el('video', { controls: '', playsinline: '', preload: 'metadata' });
+        if (!video.canPlayType(mime)) {
+          failed(p.url, 'This browser can’t play this stream (' + mime + '). Try another source, Safari, or a player like VLC.');
+        } else {
+          video.autoplay = auto !== false;
+          var source = el('source', { src: p.url, type: mime });
+          source.addEventListener('error', function () { failed(p.url, 'This video could not be loaded. Try another source.'); });
+          video.appendChild(source);
+          if (onEnded) video.addEventListener('ended', onEnded);
+          player.appendChild(video);
+        }
+      } else {
+        player.appendChild(el('iframe', {
+          src: p.url,
+          allow: 'autoplay; fullscreen; picture-in-picture; encrypted-media',
+          allowfullscreen: '',
+          referrerpolicy: 'no-referrer'
+        }));
+      }
+
+      sources.hidden = list.length < 2;
+      sources.textContent = '';
+      sources.appendChild(el('span', {}, 'Source:'));
+      list.forEach(function (q, i) {
+        var b = el('button', { type: 'button', class: i === idx ? 'on' : '' }, sourceName(q.source) + (q.label ? ' · ' + q.label : ''));
+        b.addEventListener('click', function () {
+          try { localStorage.setItem('player-pref', q.source + '|' + (q.label || '')); } catch (e) {}
+          show(list, i, true, onEnded);
+        });
+        sources.appendChild(b);
+      });
+    }
+
+    if (k === 'movies') {
+      if ((t.players || []).length) show(t.players, preferred(t.players), false);
+      return;
+    }
+
+    function play(i, scroll, auto) {
+      var btn = episodes[i];
+      if (!btn) return;
+      current = i;
+      var season = t.seasons[+btn.getAttribute('data-si')];
+      var ep = season.episodes[+btn.getAttribute('data-ei')];
+      show(ep.players, preferred(ep.players), auto, function () { play(current + 1, false); });
+
+      episodes.forEach(function (e) { e.classList.toggle('active', e === btn); });
+      nowPlaying.textContent = season.name + ' · ' + ep.title;
+      prevBtn.disabled = i <= 0;
+      nextBtn.disabled = i >= episodes.length - 1;
+      history.replaceState(null, '', '#/series/' + encodeURIComponent(t.id) + '/' + btn.id);
+      try { localStorage.setItem(storeKey, btn.id); } catch (e) {}
+      if (scroll) wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    episodes.forEach(function (btn, i) {
+      btn.addEventListener('click', function () { play(i, true); });
+    });
+    prevBtn.addEventListener('click', function () { play(current - 1, false); });
+    nextBtn.addEventListener('click', function () { play(current + 1, false); });
+
+    // Resume from the URL, else the last episode watched on this device.
+    var start = startId;
+    if (!start) {
+      try { start = localStorage.getItem(storeKey) || ''; } catch (e) {}
+    }
+    var idx = episodes.findIndex(function (e) { return e.id === start; });
+    if (idx >= 0) play(idx, !!startId, false);
+    else if (episodes.length) play(0, false, false);
+  }
+
+  // ---- routing ----
+
+  function route() {
+    var parts = location.hash.replace(/^#\/?/, '').split('/');
+    var k = parts[0] === 'movies' ? 'movies' : 'series';
+    var id = decodeURIComponent(parts[1] || '');
+    var t = id && byId[k][id];
+    stopPlayer();
+    stopPlayer = function () {};
+    $('tab-series').classList.toggle('on', k === 'series');
+    $('tab-movies').classList.toggle('on', k === 'movies');
+
+    if (t) {
+      if (!listView.hidden) listScroll[kind] = window.scrollY;
+      listView.hidden = true;
+      $('search-box').hidden = true;
+      titleView.hidden = false;
+      renderTitle(k, t, parts[2] || '');
+    } else {
+      titleView.hidden = true;
+      titleView.textContent = '';
+      listView.hidden = false;
+      $('search-box').hidden = false;
+      document.title = 'Persian TV & Movies';
+      var switched = k !== kind;
+      renderList(k);
+      window.scrollTo(0, switched ? 0 : (listScroll[k] || 0));
+    }
+  }
+
+  input.addEventListener('input', applySearch);
+  document.addEventListener('keydown', function (e) {
+    if (listView.hidden) return;
+    if (e.key === '/' && document.activeElement !== input) {
+      e.preventDefault();
+      input.focus();
+      input.select();
+    } else if (e.key === 'Escape' && document.activeElement === input) {
+      input.value = '';
+      applySearch();
+    }
+  });
+  window.addEventListener('hashchange', route);
+
+  // ---- sync ----
+
+  var syncBtn = $('sync-btn'), syncInfo = $('sync-info'), panel = $('sync-panel');
+  var pollTimer = null, lastState = '';
+
+  function startSync() {
+    syncBtn.disabled = true;
+    fetch('/rsync/start', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(showStatus)
+      .catch(function () { syncBtn.disabled = false; });
+  }
+
+  function pollStatus() {
+    clearTimeout(pollTimer);
+    fetch('/rsync/status', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(showStatus)
+      .catch(function () { pollTimer = setTimeout(pollStatus, 5000); });
+  }
+
+  function showStatus(st) {
+    var running = st.state === 'RUNNING' || st.state === 'MERGING';
+    syncBtn.disabled = running;
+    syncBtn.textContent = running ? 'Syncing…' : 'Sync';
+    $('sync-dot').className = 'dot ' + st.state;
+
+    var text;
+    if (st.state === 'IDLE') text = 'Never synced';
+    else if (st.state === 'MERGING') text = 'Merging…';
+    else if (running) {
+      var done = 0, total = 0;
+      (st.sources || []).forEach(function (s) { done += s.done; total += s.total; });
+      text = 'Syncing' + (total ? ' ' + Math.floor(100 * done / total) + '%' : '…');
+    } else {
+      text = 'Last sync ' + ago(st.started_at) + (st.state === 'FAILED' ? ' (failed)' : '');
+    }
+    $('sync-text').textContent = text;
+    if (st.started_at) syncInfo.title = 'Last sync started ' + new Date(st.started_at).toLocaleString();
+
+    renderPanel(st);
+
+    // A sync just finished: offer the new data if it changed.
+    if ((lastState === 'RUNNING' || lastState === 'MERGING') && !running) {
+      fetch('/rsync/data', { method: 'HEAD', cache: 'no-cache' }).then(function (r) {
+        if ((r.headers.get('ETag') || '') !== dataETag) $('notice').hidden = false;
+      });
+    }
+    lastState = st.state;
+    pollTimer = setTimeout(pollStatus, running ? 1500 : 60000);
+  }
+
+  function renderPanel(st) {
+    var html = '<h3>Sync: ' + esc(st.state) + (st.deep ? ' (deep)' : '') + '</h3>';
+    if (st.started_at) {
+      html += '<div class="muted">Started ' + esc(new Date(st.started_at).toLocaleString()) +
+        (st.finished_at ? ' · took ' + Math.max(1, Math.round((new Date(st.finished_at) - new Date(st.started_at)) / 1000)) + 's' : '') + '</div>';
+    }
+    html += '<div class="muted">Serving ' + st.series + ' series and ' + st.movies + ' movies</div>';
+    if (st.error) html += '<div class="err">' + esc(st.error) + '</div>';
+    (st.sources || []).forEach(function (s) {
+      var pct = s.total ? Math.round(100 * s.done / s.total) : (s.state === 'DONE' ? 100 : 0);
+      var detail = s.state === 'RUNNING'
+        ? (s.phase ? s.phase + ' ' + s.done + '/' + s.total : 'starting') + ' · ' + s.requests + ' requests'
+        : s.state + ' · ' + s.series + ' series, ' + s.movies + ' movies · ' + s.requests + ' requests';
+      html += '<div class="src"><div class="src-head"><b>' + esc(sourceName(s.name)) + '</b><span class="muted">' + esc(detail) + '</span></div>' +
+        (s.state === 'RUNNING' ? '<div class="bar"><i style="width:' + pct + '%"></i></div>' : '') +
+        (s.errors || []).map(function (e) { return '<div class="err">' + esc(e) + '</div>'; }).join('') +
+        '</div>';
+    });
+    var logLines = (st.log || []).slice(-60);
+    if (logLines.length) html += '<div class="log" id="sync-log">' + esc(logLines.join('\n')) + '</div>';
+    html += '<p class="muted" style="margin:10px 0 0"><button type="button" class="sync-btn" data-deep>Deep sync</button> re-checks every title, not only what the sites list as changed.</p>';
+
+    var log = $('sync-log');
+    var atBottom = !log || log.scrollTop + log.clientHeight >= log.scrollHeight - 4;
+    panel.innerHTML = html;
+    var deepBtn = panel.querySelector('[data-deep]');
+    deepBtn.disabled = st.state === 'RUNNING' || st.state === 'MERGING';
+    log = $('sync-log');
+    if (log && atBottom) log.scrollTop = log.scrollHeight;
+  }
+
+  syncBtn.addEventListener('click', startSync);
+  syncInfo.addEventListener('click', function () {
+    panel.hidden = !panel.hidden;
+    syncInfo.setAttribute('aria-expanded', String(!panel.hidden));
+    if (!panel.hidden) { var log = $('sync-log'); if (log) log.scrollTop = log.scrollHeight; }
+  });
+  panel.addEventListener('click', function (e) {
+    if (e.target.hasAttribute('data-deep')) {
+      e.target.disabled = true;
+      fetch('/rsync/start?deep=1', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(showStatus);
+    }
+  });
+  empty.addEventListener('click', function (e) {
+    if (e.target.hasAttribute('data-sync')) startSync();
+  });
+  document.addEventListener('click', function (e) {
+    if (!panel.hidden && !e.target.closest('.sync')) {
+      panel.hidden = true;
+      syncInfo.setAttribute('aria-expanded', 'false');
+    }
+  });
+  $('reload').addEventListener('click', load);
+
+  var q = new URL(location.href).searchParams.get('q');
+  if (q) input.value = q;
+  load().then(function () {
+    if (listView.hidden === false && !q) input.focus();
+  });
+  pollStatus();
+})();
+</script>
+</body>
+</html>
