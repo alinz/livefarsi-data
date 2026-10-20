@@ -4,7 +4,7 @@
   "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html",
   "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1064.jpg",
   "description": "DIY Craft Tutorial: The Art of Creating “Bamdad Khomar” – A Handmade Decorative Keepsake\r\nSerial Irani Bamdad Khomar سریال ایرانی بامداد خمار - Watch on LiveFarsi",
-  "episode_count": "25 EPISODES",
+  "episode_count": "27 EPISODES",
   "seasons": [
     {
       "name": "Season 1",
@@ -201,6 +201,20 @@
           "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7573.jpg",
           "player": "iframe",
           "embed": "https://ok.ru/videoembed/17052454357740"
+        },
+        {
+          "title": "E13",
+          "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=3tuo4cilkdd8",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7580.jpg",
+          "player": "iframe",
+          "embed": "https://ok.ru/videoembed/17209338366700"
+        },
+        {
+          "title": "E14 - End",
+          "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=kho5eap2ferq",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7581.jpg",
+          "player": "iframe",
+          "embed": "https://ok.ru/videoembed/17209338235628"
         }
       ]
     }

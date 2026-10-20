@@ -1,14 +1,36 @@
 {
-  "scraped_at": "2026-10-09T21:56:13Z",
+  "scraped_at": "2026-10-20T06:47:13Z",
   "source": "https://www.diycraftsguide.com/serial.html",
   "shows": [
+    {
+      "slug": "sorkh-o-siyah",
+      "title": "Sorkh o Siyah",
+      "url": "https://www.diycraftsguide.com/watch/sorkh-o-siyah.html",
+      "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1166.jpg",
+      "description": "Sorkh o Siyah DIY Craft Tutorial: Create Striking Red and Black Handmade Wall Art\r\nSerial Irani Sorkh o Siyah - سریال ایرانی سرخ و سیاه - LiveFarsi",
+      "episode_count": "1 EPISODES",
+      "seasons": [
+        {
+          "name": "Season 01",
+          "episodes": [
+            {
+              "title": "E01",
+              "url": "https://www.diycraftsguide.com/watch/sorkh-o-siyah.html?key=m36lmnausuqr",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7583.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17209338301164"
+            }
+          ]
+        }
+      ]
+    },
     {
       "slug": "yal",
       "title": "Yal",
       "url": "https://www.diycraftsguide.com/watch/yal.html",
       "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1165.jpg",
       "description": "Serial Irani Yal - سریال ایرانی یال - LiveFarsi\r\n\r\nYal DIY Craft Tutorial: Create Beautiful Handmade Wall Art with Simple Materials",
-      "episode_count": "1 EPISODES",
+      "episode_count": "2 EPISODES",
       "seasons": [
         {
           "name": "Season 01",
@@ -19,6 +41,377 @@
               "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7576.jpg",
               "player": "iframe",
               "embed": "https://ok.ru/videoembed/17092178873068"
+            },
+            {
+              "title": "Episode 02",
+              "url": "https://www.diycraftsguide.com/watch/yal.html?key=u32l1d79ye6v",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7582.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17209338497772"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "bamdad-khomar-kamel",
+      "title": "Bamdad Khomar",
+      "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html",
+      "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1064.jpg",
+      "description": "DIY Craft Tutorial: The Art of Creating “Bamdad Khomar” – A Handmade Decorative Keepsake\r\nSerial Irani Bamdad Khomar سریال ایرانی بامداد خمار - Watch on LiveFarsi",
+      "episode_count": "27 EPISODES",
+      "seasons": [
+        {
+          "name": "Season 1",
+          "episodes": [
+            {
+              "title": "E01",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=yv657sawsuvq",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7283.jpg",
+              "player": "video",
+              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad1.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E02",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=hjhk3pr0rioi",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7287.jpg",
+              "player": "video",
+              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad2.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E03",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=jc82edurqibi",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7288.jpg",
+              "player": "video",
+              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad3.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E04",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=8ir9s16y7nn0",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7293.jpg",
+              "player": "video",
+              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad4.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E05",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=0aa2txaw0csy",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7297.jpg",
+              "player": "video",
+              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad5.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E06",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=mg4vg05kjaor",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7303.jpg",
+              "player": "video",
+              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad6.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E07",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=prtb0eeoyhj6",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7307.jpg",
+              "player": "video",
+              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad7.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E08",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=pcsd158hed1p",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7312.jpg",
+              "player": "video",
+              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad8.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E09",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=ggjrrjlv0x2u",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7317.jpg",
+              "player": "video",
+              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad9.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E10",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=6hzoydzgt1au",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7323.jpg",
+              "player": "video",
+              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad10.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E11",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=n69dfynhu2jg",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7329.jpg",
+              "player": "video",
+              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad11.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E12",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=mdtrpghixm5b",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7337.jpg",
+              "player": "video",
+              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad12.mp4",
+              "mime_type": "video/mp4"
+            },
+            {
+              "title": "E13 - End",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=yra955hj533z",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7352.jpg",
+              "player": "video",
+              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad13.mp4",
+              "mime_type": "video/mp4"
+            }
+          ]
+        },
+        {
+          "name": "Season 2",
+          "episodes": [
+            {
+              "title": "E01",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=4lvyixibumig",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7505.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16120285432556"
+            },
+            {
+              "title": "E02",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=x0ywmoi2sg6t",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7509.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16181045365484"
+            },
+            {
+              "title": "E03",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=il0tm7fe8qyn",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7514.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16275537267436"
+            },
+            {
+              "title": "E04",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=ypn8s3pgzzn7",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7519.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16366927284972"
+            },
+            {
+              "title": "E05",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=6g1x1lx894zy",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7523.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16423252921068"
+            },
+            {
+              "title": "E06",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=2g8yyzpcx4tk",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7529.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16509628189420"
+            },
+            {
+              "title": "E07",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=8pem1wapz5qx",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7538.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16661928413932"
+            },
+            {
+              "title": "E08",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=up3a2wk0jtzf",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7546.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16731919616748"
+            },
+            {
+              "title": "E09",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=5qco8fswqqrz",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7552.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16808428047084"
+            },
+            {
+              "title": "E10",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=rw8n6pvon8c1",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7560.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16888510548716"
+            },
+            {
+              "title": "E11",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=f9ihiil7d8o0",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7566.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16967720962796"
+            },
+            {
+              "title": "E12",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=sa4hv8a0viok",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7573.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17052454357740"
+            },
+            {
+              "title": "E13",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=3tuo4cilkdd8",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7580.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17209338366700"
+            },
+            {
+              "title": "E14 - End",
+              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=kho5eap2ferq",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7581.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17209338235628"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "nim-rokh",
+      "title": "Nim Rokh",
+      "url": "https://www.diycraftsguide.com/watch/nim-rokh.html",
+      "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1154.jpg",
+      "description": "Serial Irani Nim Rokh - سریال ایرانی نیم رخ - LiveFarsi\r\nNim Rokh DIY Craft Tutorial: Create a Stunning Half-and-Half Mixed Media Art Piece",
+      "episode_count": "7 EPISODES",
+      "seasons": [
+        {
+          "name": "Season 01",
+          "episodes": [
+            {
+              "title": "E01",
+              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=wdl4f9rljg6c",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7543.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16695618374380"
+            },
+            {
+              "title": "E02",
+              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=66c7z9s9w9ba",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7548.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16772934470380"
+            },
+            {
+              "title": "E03",
+              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=esk64k13ulrq",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7555.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16850856250092"
+            },
+            {
+              "title": "E04",
+              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=q03bh0iz2d56",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7564.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16944101722860"
+            },
+            {
+              "title": "E05",
+              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=6vi37i8i8xdo",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7571.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17028962061036"
+            },
+            {
+              "title": "E06",
+              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=4rzvbelnwk8m",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7574.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17092178807532"
+            },
+            {
+              "title": "E07",
+              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=1dkdzioiwdc9",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7579.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17209447287532"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "shah-gol",
+      "title": "Shah Gol",
+      "url": "https://www.diycraftsguide.com/watch/shah-gol.html",
+      "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1151.jpg",
+      "description": "Shah Gol DIY Craft Tutorial: Create a Stunning Handmade Floral Art Piece for Your Home\r\nShow Irani Shah Gol - شو ایرانی شاه گل - LiveFarsi",
+      "episode_count": "9 EPISODES",
+      "seasons": [
+        {
+          "name": "Season 01",
+          "episodes": [
+            {
+              "title": "Entekhabi 1",
+              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=ergcxvm5hgp8",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7531.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16535672589036"
+            },
+            {
+              "title": "Entekhabi 2",
+              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=0h5gxfrdrzg9",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7535.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16600179804908"
+            },
+            {
+              "title": "Episode 01",
+              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=52huxwhjlsxs",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7540.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16695618439916"
+            },
+            {
+              "title": "Episode 02",
+              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=ql7ock1siucz",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7547.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16772934535916"
+            },
+            {
+              "title": "Episode 03",
+              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=9v3iosvuh56p",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7554.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16838393989868"
+            },
+            {
+              "title": "Episode 04",
+              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=hi55zce1vzuo",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7561.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16922448825068"
+            },
+            {
+              "title": "Episode 05",
+              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=mhdxdnkxvki5",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7569.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/16990934928108"
+            },
+            {
+              "title": "E06",
+              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=pdg9xlcrpuvm",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7577.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17209540348652"
+            },
+            {
+              "title": "E07",
+              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=vw4berfnqelj",
+              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7578.jpg",
+              "player": "iframe",
+              "embed": "https://ok.ru/videoembed/17209338432236"
             }
           ]
         }
@@ -240,271 +633,6 @@
       ]
     },
     {
-      "slug": "nim-rokh",
-      "title": "Nim Rokh",
-      "url": "https://www.diycraftsguide.com/watch/nim-rokh.html",
-      "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1154.jpg",
-      "description": "Serial Irani Nim Rokh - سریال ایرانی نیم رخ - LiveFarsi\r\nNim Rokh DIY Craft Tutorial: Create a Stunning Half-and-Half Mixed Media Art Piece",
-      "episode_count": "6 EPISODES",
-      "seasons": [
-        {
-          "name": "Season 01",
-          "episodes": [
-            {
-              "title": "E01",
-              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=wdl4f9rljg6c",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7543.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16695618374380"
-            },
-            {
-              "title": "E02",
-              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=66c7z9s9w9ba",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7548.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16772934470380"
-            },
-            {
-              "title": "E03",
-              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=esk64k13ulrq",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7555.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16850856250092"
-            },
-            {
-              "title": "E04",
-              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=q03bh0iz2d56",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7564.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16944101722860"
-            },
-            {
-              "title": "E05",
-              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=6vi37i8i8xdo",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7571.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/17028962061036"
-            },
-            {
-              "title": "E06",
-              "url": "https://www.diycraftsguide.com/watch/nim-rokh.html?key=4rzvbelnwk8m",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7574.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/17092178807532"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "slug": "bamdad-khomar-kamel",
-      "title": "Bamdad Khomar",
-      "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html",
-      "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1064.jpg",
-      "description": "DIY Craft Tutorial: The Art of Creating “Bamdad Khomar” – A Handmade Decorative Keepsake\r\nSerial Irani Bamdad Khomar سریال ایرانی بامداد خمار - Watch on LiveFarsi",
-      "episode_count": "25 EPISODES",
-      "seasons": [
-        {
-          "name": "Season 1",
-          "episodes": [
-            {
-              "title": "E01",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=yv657sawsuvq",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7283.jpg",
-              "player": "video",
-              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad1.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E02",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=hjhk3pr0rioi",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7287.jpg",
-              "player": "video",
-              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad2.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E03",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=jc82edurqibi",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7288.jpg",
-              "player": "video",
-              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad3.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E04",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=8ir9s16y7nn0",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7293.jpg",
-              "player": "video",
-              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad4.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E05",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=0aa2txaw0csy",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7297.jpg",
-              "player": "video",
-              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad5.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E06",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=mg4vg05kjaor",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7303.jpg",
-              "player": "video",
-              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad6.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E07",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=prtb0eeoyhj6",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7307.jpg",
-              "player": "video",
-              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad7.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E08",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=pcsd158hed1p",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7312.jpg",
-              "player": "video",
-              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad8.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E09",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=ggjrrjlv0x2u",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7317.jpg",
-              "player": "video",
-              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad9.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E10",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=6hzoydzgt1au",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7323.jpg",
-              "player": "video",
-              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad10.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E11",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=n69dfynhu2jg",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7329.jpg",
-              "player": "video",
-              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad11.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E12",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=mdtrpghixm5b",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7337.jpg",
-              "player": "video",
-              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad12.mp4",
-              "mime_type": "video/mp4"
-            },
-            {
-              "title": "E13 - End",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=yra955hj533z",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7352.jpg",
-              "player": "video",
-              "embed": "https://s1.farsicdn.site/S/BamdadKhomar/s1/bamdad13.mp4",
-              "mime_type": "video/mp4"
-            }
-          ]
-        },
-        {
-          "name": "Season 2",
-          "episodes": [
-            {
-              "title": "E01",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=4lvyixibumig",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7505.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16120285432556"
-            },
-            {
-              "title": "E02",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=x0ywmoi2sg6t",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7509.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16181045365484"
-            },
-            {
-              "title": "E03",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=il0tm7fe8qyn",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7514.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16275537267436"
-            },
-            {
-              "title": "E04",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=ypn8s3pgzzn7",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7519.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16366927284972"
-            },
-            {
-              "title": "E05",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=6g1x1lx894zy",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7523.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16423252921068"
-            },
-            {
-              "title": "E06",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=2g8yyzpcx4tk",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7529.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16509628189420"
-            },
-            {
-              "title": "E07",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=8pem1wapz5qx",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7538.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16661928413932"
-            },
-            {
-              "title": "E08",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=up3a2wk0jtzf",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7546.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16731919616748"
-            },
-            {
-              "title": "E09",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=5qco8fswqqrz",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7552.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16808428047084"
-            },
-            {
-              "title": "E10",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=rw8n6pvon8c1",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7560.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16888510548716"
-            },
-            {
-              "title": "E11",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=f9ihiil7d8o0",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7566.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16967720962796"
-            },
-            {
-              "title": "E12",
-              "url": "https://www.diycraftsguide.com/watch/bamdad-khomar-kamel.html?key=sa4hv8a0viok",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7573.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/17052454357740"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "slug": "eteraf-mikonam",
       "title": "Eteraf Mikonam",
       "url": "https://www.diycraftsguide.com/watch/eteraf-mikonam.html",
@@ -634,70 +762,6 @@
               "thumbnail": "https://www.diycraftsguide.com/uploads/default_image/episode.jpg",
               "player": "iframe",
               "embed": "https://ok.ru/videoembed/17028962126572"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "slug": "shah-gol",
-      "title": "Shah Gol",
-      "url": "https://www.diycraftsguide.com/watch/shah-gol.html",
-      "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1151.jpg",
-      "description": "Shah Gol DIY Craft Tutorial: Create a Stunning Handmade Floral Art Piece for Your Home\r\nShow Irani Shah Gol - شو ایرانی شاه گل - LiveFarsi",
-      "episode_count": "7 EPISODES",
-      "seasons": [
-        {
-          "name": "Season 01",
-          "episodes": [
-            {
-              "title": "Entekhabi 1",
-              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=ergcxvm5hgp8",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7531.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16535672589036"
-            },
-            {
-              "title": "Entekhabi 2",
-              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=0h5gxfrdrzg9",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7535.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16600179804908"
-            },
-            {
-              "title": "Episode 01",
-              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=52huxwhjlsxs",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7540.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16695618439916"
-            },
-            {
-              "title": "Episode 02",
-              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=ql7ock1siucz",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7547.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16772934535916"
-            },
-            {
-              "title": "Episode 03",
-              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=9v3iosvuh56p",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7554.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16838393989868"
-            },
-            {
-              "title": "Episode 04",
-              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=hi55zce1vzuo",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7561.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16922448825068"
-            },
-            {
-              "title": "Episode 05",
-              "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=mhdxdnkxvki5",
-              "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7569.jpg",
-              "player": "iframe",
-              "embed": "https://ok.ru/videoembed/16990934928108"
             }
           ]
         }
