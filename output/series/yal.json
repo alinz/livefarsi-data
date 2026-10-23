@@ -4,7 +4,7 @@
   "url": "https://www.diycraftsguide.com/watch/yal.html",
   "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1165.jpg",
   "description": "Serial Irani Yal - سریال ایرانی یال - LiveFarsi\r\n\r\nYal DIY Craft Tutorial: Create Beautiful Handmade Wall Art with Simple Materials",
-  "episode_count": "2 EPISODES",
+  "episode_count": "3 EPISODES",
   "seasons": [
     {
       "name": "Season 01",
@@ -22,6 +22,13 @@
           "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7582.jpg",
           "player": "iframe",
           "embed": "https://ok.ru/videoembed/17209338497772"
+        },
+        {
+          "title": "Episode 03",
+          "url": "https://www.diycraftsguide.com/watch/yal.html?key=yuhd181d1029",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7589.jpg",
+          "player": "iframe",
+          "embed": "https://ok.ru/videoembed/17247907547884"
         }
       ]
     }

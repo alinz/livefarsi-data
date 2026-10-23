@@ -4,7 +4,7 @@
   "url": "https://www.diycraftsguide.com/watch/sorkh-o-siyah.html",
   "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1166.jpg",
   "description": "Sorkh o Siyah DIY Craft Tutorial: Create Striking Red and Black Handmade Wall Art\r\nSerial Irani Sorkh o Siyah - سریال ایرانی سرخ و سیاه - LiveFarsi",
-  "episode_count": "1 EPISODES",
+  "episode_count": "2 EPISODES",
   "seasons": [
     {
       "name": "Season 01",
@@ -15,6 +15,13 @@
           "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7583.jpg",
           "player": "iframe",
           "embed": "https://ok.ru/videoembed/17209338301164"
+        },
+        {
+          "title": "E02",
+          "url": "https://www.diycraftsguide.com/watch/sorkh-o-siyah.html?key=vglpd92mlozy",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7588.jpg",
+          "player": "iframe",
+          "embed": "https://ok.ru/videoembed/17247907482348"
         }
       ]
     }

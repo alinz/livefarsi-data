@@ -4,7 +4,7 @@
   "url": "https://www.diycraftsguide.com/watch/shah-gol.html",
   "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1151.jpg",
   "description": "Shah Gol DIY Craft Tutorial: Create a Stunning Handmade Floral Art Piece for Your Home\r\nShow Irani Shah Gol - شو ایرانی شاه گل - LiveFarsi",
-  "episode_count": "9 EPISODES",
+  "episode_count": "10 EPISODES",
   "seasons": [
     {
       "name": "Season 01",
@@ -71,6 +71,13 @@
           "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7578.jpg",
           "player": "iframe",
           "embed": "https://ok.ru/videoembed/17209338432236"
+        },
+        {
+          "title": "E08",
+          "url": "https://www.diycraftsguide.com/watch/shah-gol.html?key=kmt9mso324zp",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7586.jpg",
+          "player": "iframe",
+          "embed": "https://ok.ru/videoembed/17230654343916"
         }
       ]
     }
