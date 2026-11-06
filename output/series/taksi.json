@@ -4,7 +4,7 @@
   "url": "https://www.diycraftsguide.com/watch/taksi.html",
   "poster": "https://www.diycraftsguide.com/uploads/video_thumb/1172.jpg",
   "description": "Taksi DIY Craft Tutorial: How to Create a Handmade Taxi-Inspired Miniature\r\nSerial Irani Taksi - سریال ایرانی تاکسی - LiveFarsi",
-  "episode_count": "2 EPISODES",
+  "episode_count": "5 EPISODES",
   "seasons": [
     {
       "name": "Season 01",
@@ -22,6 +22,27 @@
           "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7597.jpg",
           "player": "iframe",
           "embed": "https://ok.ru/videoembed/17305116084972"
+        },
+        {
+          "title": "E03",
+          "url": "https://www.diycraftsguide.com/watch/taksi.html?key=kteu13kx0wyz",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7598.jpg",
+          "player": "iframe",
+          "embed": "https://ok.ru/videoembed/17409013582572"
+        },
+        {
+          "title": "E04",
+          "url": "https://www.diycraftsguide.com/watch/taksi.html?key=bi5vtrhludd6",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7599.jpg",
+          "player": "iframe",
+          "embed": "https://ok.ru/videoembed/17408746261228"
+        },
+        {
+          "title": "E05",
+          "url": "https://www.diycraftsguide.com/watch/taksi.html?key=diep66ojum9q",
+          "thumbnail": "https://www.diycraftsguide.com/uploads/episodes/7600.jpg",
+          "player": "iframe",
+          "embed": "https://ok.ru/videoembed/17409013451500"
         }
       ]
     }
