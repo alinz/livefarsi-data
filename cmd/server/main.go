@@ -19,16 +19,18 @@ import (
 	"farsi.ella.to/internal/source"
 	"farsi.ella.to/internal/source/diycraftsguide"
 	"farsi.ella.to/internal/source/farsiplex"
+	"farsi.ella.to/internal/source/fmoviess"
 )
 
 func main() {
-	dir := flag.String("dir", "data", "data directory: each source's files, the merged catalog and the sync status")
+	dir := flag.String("dir", "data", "data directory: holds the database, movies.db")
 	addr := flag.String("addr", ":8080", "address to listen on")
 	flag.Parse()
 	log.SetFlags(log.Ltime)
 
-	// The first source wins for a title's display fields when sources overlap.
-	sources := []source.Source{diycraftsguide.New(), farsiplex.New()}
+	// Sources are grouped by their section. Within a section, the first source
+	// wins for a title's display fields when sources overlap.
+	sources := []source.Source{diycraftsguide.New(), farsiplex.New(), fmoviess.New()}
 	syncer, err := rsync.New(*dir, sources...)
 	if err != nil {
 		log.Fatal(err)
