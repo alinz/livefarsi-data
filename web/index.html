@@ -3,12 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Persian TV &amp; Movies</title>
+<title>TV &amp; Movies</title>
 <!--
-  Served by cmd/server at /. Loads the merged catalog from /rsync/data and
-  drives syncs through /rsync/start and /rsync/status.
-  Routes: #/series and #/movies (lists, ?q= search), #/series/<id>,
-  #/series/<id>/s1e2 (an episode), #/movies/<id>.
+  Served by cmd/server at /. Each section (farsi, foreign) has its own title
+  list (/rsync/data?section=), titles (/api/title), and syncs (/rsync/start,
+  /rsync/status, /rsync/title for one title).
+  Routes: #/ (choose a section), #/<section>/series and #/<section>/movies
+  (lists, ?q= search), #/<section>/series/<id>, #/<section>/series/<id>/s1e2
+  (an episode), #/<section>/movies/<id>.
 -->
 <style>
 :root {
@@ -203,6 +205,24 @@ button { font: inherit; color: inherit; }
 .episode.active .play { background: var(--accent); }
 .ep-title { display: block; padding: 8px 10px; font-weight: 600; }
 
+/* Section chooser */
+.landing { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); max-width: 820px; margin: 8vh auto 0; }
+.landing a {
+  display: block; padding: 28px 24px; background: var(--surface); border: 1px solid var(--surface-2);
+  border-radius: 14px; transition: border-color .2s, transform .2s;
+}
+.landing a:hover, .landing a:focus-visible { border-color: var(--accent); transform: translateY(-2px); outline: none; }
+.landing h2 { margin: 0 0 6px; font-size: 26px; }
+.landing p { margin: 0; color: var(--muted); }
+.landing .muted { margin-top: 12px; font-size: 13px; }
+
+.more { display: block; margin: 24px auto 0; padding: 10px 18px; cursor: pointer; background: var(--surface-2); border: 0; border-radius: 999px; font-weight: 600; }
+.more:hover { background: var(--accent); }
+.title-sync { margin-left: 4px; padding: 3px 10px; cursor: pointer; background: var(--surface-2); border: 0; border-radius: 999px; font-size: 13px; }
+.title-sync:hover:not(:disabled) { background: var(--accent); }
+.title-sync:disabled { opacity: .5; cursor: default; }
+.loading { text-align: center; color: var(--muted); padding: 60px 0; }
+
 @media (max-width: 700px) {
   .search { order: 5; flex-basis: 100%; max-width: none; }
   .sync { margin-left: auto; }
@@ -216,16 +236,20 @@ button { font: inherit; color: inherit; }
 </head>
 <body>
 <header class="topbar">
-  <a class="brand" href="#/series">Persian TV</a>
-  <nav class="tabs" aria-label="Catalog">
-    <a href="#/series" id="tab-series">Series</a>
-    <a href="#/movies" id="tab-movies">Movies</a>
+  <a class="brand" href="#/">TV &amp; Movies</a>
+  <nav class="tabs" aria-label="Section" id="section-tabs" hidden>
+    <a href="#/farsi/series" id="tab-farsi">Farsi</a>
+    <a href="#/foreign/movies" id="tab-foreign">Foreign</a>
   </nav>
-  <div class="search" id="search-box">
+  <nav class="tabs" aria-label="Catalog" id="kind-tabs" hidden>
+    <a href="#/farsi/series" id="tab-series">Series</a>
+    <a href="#/farsi/movies" id="tab-movies">Movies</a>
+  </nav>
+  <div class="search" id="search-box" hidden>
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
     <input id="search" type="search" placeholder="Search…  (press /)" autocomplete="off" aria-label="Search">
   </div>
-  <div class="sync">
+  <div class="sync" id="sync" hidden>
     <button type="button" class="sync-btn" id="sync-btn">Sync</button>
     <button type="button" class="sync-info" id="sync-info" aria-expanded="false" aria-controls="sync-panel"><span class="dot" id="sync-dot"></span><span id="sync-text">…</span></button>
     <div class="sync-panel" id="sync-panel" hidden></div>
@@ -233,9 +257,17 @@ button { font: inherit; color: inherit; }
 </header>
 <div class="notice" id="notice" hidden>New data is ready. <button type="button" id="reload">Load it</button></div>
 
-<main class="wrap" id="list-view">
+<main class="wrap" id="landing-view" hidden>
+  <nav class="landing" aria-label="Sections">
+    <a href="#/farsi/series"><h2>Farsi</h2><p>Iranian series and movies</p><p class="muted">LiveFarsi · FarsiPlex</p></a>
+    <a href="#/foreign/movies"><h2>Foreign</h2><p>International movies and TV series</p><p class="muted">FMovies</p></a>
+  </nav>
+</main>
+
+<main class="wrap" id="list-view" hidden>
   <p class="count" id="count" aria-live="polite">Loading…</p>
   <ul class="grid" id="grid"></ul>
+  <button type="button" class="more" id="more" hidden>Show more</button>
   <p class="empty" id="empty" hidden></p>
 </main>
 
@@ -243,18 +275,23 @@ button { font: inherit; color: inherit; }
 
 <script>
 (function () {
-  var SOURCE_NAMES = { diycraftsguide: 'LiveFarsi', farsiplex: 'FarsiPlex' };
+  var SOURCE_NAMES = { diycraftsguide: 'LiveFarsi', farsiplex: 'FarsiPlex', fmoviess: 'FMovies' };
+  var SECTIONS = { farsi: 'Farsi', foreign: 'Foreign' };
+  var PAGE = 120;               // cards rendered at a time
 
   var $ = function (id) { return document.getElementById(id); };
-  var input = $('search'), grid = $('grid'), count = $('count'), empty = $('empty');
-  var listView = $('list-view'), titleView = $('title-view');
+  var input = $('search'), grid = $('grid'), count = $('count'), empty = $('empty'), more = $('more');
+  var landingView = $('landing-view'), listView = $('list-view'), titleView = $('title-view');
 
-  var cat = { series: [], movies: [] };
-  var byId = { series: {}, movies: {} };
+  var cats = {};                // section -> { series: [...], movies: [...], etag, byId }
+  var loading = {};             // section -> promise
+  var section = '';             // the section being shown
   var kind = 'series';          // the list being shown
-  var cards = [];               // <li> elements of that list
+  var listKey = '';             // section/kind of the rendered list
+  var matches = [];             // titles matching the search, in order
+  var shown = 0;                // how many of them are rendered
   var listScroll = {};          // scroll position per list, restored on Back
-  var dataETag = '';
+  var routeSeq = 0;             // ignores title loads overtaken by a newer route
   var stopPlayer = function () {};
 
   function esc(s) {
@@ -281,6 +318,9 @@ button { font: inherit; color: inherit; }
   }
 
   function sourceName(s) { return SOURCE_NAMES[s] || s; }
+  function qs(o) {
+    return Object.keys(o).map(function (k) { return k + '=' + encodeURIComponent(o[k]); }).join('&');
+  }
 
   // Playable episodes (or 1/0 for a movie).
   function playable(t) {
@@ -299,91 +339,145 @@ button { font: inherit; color: inherit; }
 
   // ---- data ----
 
-  function load() {
-    return fetch('/rsync/data', { cache: 'no-cache' })
+  function load(sec, force) {
+    if (cats[sec] && !force) return Promise.resolve(cats[sec]);
+    if (loading[sec] && !force) return loading[sec];
+    var etag = '';
+    loading[sec] = fetch('/rsync/data?section=' + sec, { cache: 'no-cache' })
       .then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
-        dataETag = r.headers.get('ETag') || '';
+        etag = r.headers.get('ETag') || '';
         return r.json();
       })
       .then(function (data) {
-        cat = { series: data.series || [], movies: data.movies || [], updated_at: data.updated_at };
-        byId = { series: {}, movies: {} };
+        var c = { series: data.series || [], movies: data.movies || [], etag: etag, byId: { series: {}, movies: {} } };
         ['series', 'movies'].forEach(function (k) {
-          cat[k].forEach(function (t) { byId[k][t.id] = t; });
+          c[k].forEach(function (t) {
+            c.byId[k][t.id] = t;
+            t._key = norm([t.title, t.title_fa || '', t.id].join(' '));
+          });
         });
-        $('notice').hidden = true;
-        renderList(kind, true);
-        route();
-      })
-      .catch(function (err) {
-        count.textContent = '';
-        empty.innerHTML = 'Couldn’t load the catalog (' + esc(err.message) + '). <a href="">Try again</a>';
-        empty.hidden = false;
+        cats[sec] = c;
+        delete loading[sec];
+        return c;
+      }, function (err) {
+        delete loading[sec];
+        throw err;
       });
+    return loading[sec];
   }
 
   // ---- list ----
 
-  function renderList(k, force) {
-    if (k === kind && !force && cards.length) return;
-    kind = k;
-    var titles = cat[k];
-    var path = '#/' + k + '/';
-    grid.innerHTML = titles.map(function (t) {
-      var n = playable(t);
-      var badge = k === 'series' ? n + ' ep' : '';
-      return '<li class="card">' +
-        '<a href="' + path + encodeURIComponent(t.id) + '">' +
-          '<div class="poster">' +
-            (t.poster ? '<img src="' + esc(t.poster) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">' : '') +
-            (badge ? '<span class="badge">' + esc(badge) + '</span>' : '') +
-          '</div>' +
-          '<h2>' + esc(t.title) + '</h2>' +
-          (t.title_fa ? '<p class="fa" dir="rtl">' + esc(t.title_fa) + '</p>' : '') +
-        '</a></li>';
-    }).join('');
-    cards = Array.prototype.slice.call(grid.children);
-    cards.forEach(function (c, i) {
-      var t = titles[i];
-      c._key = norm([t.title, t.title_fa || '', t.id, t.description || ''].join(' '));
-    });
-    input.placeholder = 'Search ' + titles.length + ' ' + (k === 'series' ? 'series' : 'movies') + '…  (press /)';
+  function renderList(force) {
+    var key = section + '/' + kind;
+    if (key === listKey && !force) return;
+    listKey = key;
     applySearch();
   }
 
+  function card(t) {
+    var badge = kind === 'series' && t.eps ? t.eps + ' ep' : '';
+    return '<li class="card">' +
+      '<a href="#/' + section + '/' + kind + '/' + encodeURIComponent(t.id) + '">' +
+        '<div class="poster">' +
+          (t.poster ? '<img src="' + esc(t.poster) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">' : '') +
+          (badge ? '<span class="badge">' + esc(badge) + '</span>' : '') +
+        '</div>' +
+        '<h2>' + esc(t.title) + '</h2>' +
+        (t.title_fa ? '<p class="fa" dir="rtl">' + esc(t.title_fa) + '</p>' : '') +
+      '</a></li>';
+  }
+
+  function renderMore() {
+    var next = matches.slice(shown, shown + PAGE);
+    grid.insertAdjacentHTML('beforeend', next.map(card).join(''));
+    shown += next.length;
+    more.hidden = shown >= matches.length;
+  }
+
   function applySearch() {
+    var c = cats[section];
+    if (!c) return;
+    var titles = c[kind];
     var words = input.value.toLowerCase().split(/\s+/).map(norm).filter(Boolean);
-    var shown = 0;
-    cards.forEach(function (c) {
-      var ok = words.every(function (w) { return c._key.indexOf(w) !== -1; });
-      c.hidden = !ok;
-      if (ok) shown++;
-    });
-    var total = cards.length, noun = kind === 'series' ? 'series' : (total === 1 ? 'movie' : 'movies');
-    count.textContent = words.length ? shown + ' of ' + total + ' ' + noun : total + ' ' + noun;
+    matches = words.length ? titles.filter(function (t) {
+      return words.every(function (w) { return t._key.indexOf(w) !== -1; });
+    }) : titles;
+    grid.textContent = '';
+    shown = 0;
+    renderMore();
+
+    var total = titles.length, noun = kind === 'series' ? 'series' : (total === 1 ? 'movie' : 'movies');
+    count.textContent = words.length ? matches.length + ' of ' + total + ' ' + noun : total + ' ' + noun;
+    input.placeholder = 'Search ' + total + ' ' + (kind === 'series' ? 'series' : 'movies') + '…  (press /)';
     if (!total) {
-      empty.innerHTML = 'Nothing here yet. <button type="button" class="link" data-sync>Run a sync</button> to fetch the catalog.';
+      empty.innerHTML = 'Nothing here yet. <button type="button" class="link" data-sync>Run a sync</button> to fetch the ' + esc(SECTIONS[section]) + ' catalog.';
     } else {
       empty.textContent = 'Nothing matches your search.';
     }
-    empty.hidden = shown !== 0;
+    empty.hidden = matches.length !== 0;
 
     var url = new URL(location.href);
     if (input.value) url.searchParams.set('q', input.value); else url.searchParams.delete('q');
     history.replaceState(null, '', url);
   }
 
+  // Render more cards as the end of the list comes into view.
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting && !more.hidden) renderMore();
+    }, { rootMargin: '800px' }).observe(more);
+  }
+  more.addEventListener('click', renderMore);
+
   // ---- title page ----
 
-  function renderTitle(k, t, epId) {
+  function loadTitle(sec, k, id, epId, sync) {
+    var seq = ++routeSeq;
+    var summary = cats[sec] && cats[sec].byId[k][id];
+    titleView.innerHTML = '<p class="loading">' +
+      (sync ? 'Syncing this title…' : summary && summary.partial ? 'Fetching sources for ' + esc(summary.title) + '…' : 'Loading…') + '</p>';
+    var url = (sync ? '/rsync/title?' : '/api/title?') + qs({ section: sec, kind: k, id: id });
+    fetch(url, { cache: 'no-store' })
+      .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, status: r.status, body: b }; }); })
+      .then(function (res) {
+        if (seq !== routeSeq) return;
+        if (!res.ok && !(sync && res.status === 409)) throw new Error(res.body.error || 'HTTP ' + res.status);
+        if (!res.ok) {
+          // A full sync is running; show the title as it is, with the reason.
+          return fetch('/api/title?' + qs({ section: sec, kind: k, id: id }), { cache: 'no-store' })
+            .then(function (r) { return r.json(); })
+            .then(function (b) { if (seq === routeSeq) renderTitle(sec, k, b.title, epId, res.body.error); });
+        }
+        var t = res.body.title;
+        if (summary && t) {
+          // Keep the list's card in step with what was fetched.
+          summary.partial = !!t.partial;
+          summary.poster = t.poster || summary.poster;
+          if (k === 'series' && !t.partial) summary.eps = playable(t);
+        }
+        if (t && t.id !== id) history.replaceState(null, '', '#/' + sec + '/' + k + '/' + encodeURIComponent(t.id));
+        renderTitle(sec, k, t, epId, res.body.error);
+      })
+      .catch(function (err) {
+        if (seq !== routeSeq) return;
+        titleView.innerHTML = '<p class="empty">Couldn’t load this title (' + esc(err.message) + '). <a href="">Try again</a></p>';
+      });
+  }
+
+  function renderTitle(sec, k, t, epId, syncError) {
     var seasons = t.seasons || [];
     var meta = [];
     if (k === 'series') {
       meta.push(seasons.length + ' season' + (seasons.length !== 1 ? 's' : ''));
       meta.push(playable(t) + ' episodes');
     }
-    meta.push('on ' + (t.links || []).map(function (l) {
+    var seen = {};
+    meta.push('on ' + (t.links || []).filter(function (l) {
+      if (seen[l.source]) return false;
+      return (seen[l.source] = true);
+    }).map(function (l) {
       return '<a href="' + esc(l.url) + '" target="_blank" rel="noopener noreferrer">' + esc(sourceName(l.source)) + '</a>';
     }).join(', '));
 
@@ -394,12 +488,14 @@ button { font: inherit; color: inherit; }
           '<h1>' + esc(t.title) + '</h1>' +
           (t.title_fa ? '<p class="fa" dir="rtl">' + esc(t.title_fa) + '</p>' : '') +
           (t.description ? '<p class="desc" dir="auto">' + esc(t.description) + '</p>' : '') +
-          '<p class="meta">' + meta.join(' · ') + '</p>' +
+          '<p class="meta">' + meta.join(' · ') +
+            ' <button type="button" class="title-sync" id="title-sync" title="Re-fetch this title from its sources">Sync this title</button></p>' +
+          (syncError ? '<p class="meta err">Sync: ' + esc(syncError) + '</p>' : '') +
         '</div>' +
       '</section>' +
       '<section class="player-wrap" id="player-wrap">' +
         '<div class="player" id="player"><div class="player-empty">' +
-          (k === 'series' ? 'Choose an episode below to start watching' : 'No player available') +
+          (k === 'series' && seasons.length ? 'Choose an episode below to start watching' : 'No player available') +
         '</div></div>' +
         (k === 'series'
           ? '<div class="player-bar">' +
@@ -428,15 +524,19 @@ button { font: inherit; color: inherit; }
     });
 
     titleView.innerHTML = html;
-    document.title = t.title + ' · Persian TV';
+    document.title = t.title + ' · ' + SECTIONS[sec];
     window.scrollTo(0, 0);
+    $('title-sync').addEventListener('click', function () {
+      stopPlayer();
+      loadTitle(sec, k, t.id, '', true);
+    });
     initPlayer(k, t, epId);
   }
 
   function initPlayer(k, t, startId) {
     var player = $('player'), wrap = $('player-wrap'), sources = $('sources');
     var nowPlaying = $('now-playing'), prevBtn = $('prev'), nextBtn = $('next');
-    var storeKey = 'last:' + k + ':' + t.id;
+    var storeKey = 'last:' + section + ':' + k + ':' + t.id;
     var current = -1;
     var episodes = Array.prototype.slice.call(titleView.querySelectorAll('.episode:not([disabled])'));
 
@@ -467,7 +567,14 @@ button { font: inherit; color: inherit; }
     function show(list, idx, auto, onEnded) {
       var p = list[idx];
       player.textContent = '';
-      if (p.type === 'video') {
+      if (p.type === 'link') {
+        // The source's player can't be embedded: open its page instead.
+        var box = el('div', { class: 'player-empty' });
+        box.appendChild(el('p', {}, 'This plays on ' + sourceName(p.source) + '’s own site' +
+          (nowPlaying && nowPlaying.textContent ? ' (pick ' + nowPlaying.textContent.split(' · ').pop() + ' there)' : '') + '.'));
+        box.appendChild(el('a', { href: p.url, target: '_blank', rel: 'noopener noreferrer' }, 'Watch on ' + sourceName(p.source) + ' ↗'));
+        player.appendChild(box);
+      } else if (p.type === 'video') {
         var mime = p.mime || 'video/mp4';
         var video = el('video', { controls: '', playsinline: '', preload: 'metadata' });
         if (!video.canPlayType(mime)) {
@@ -513,13 +620,13 @@ button { font: inherit; color: inherit; }
       current = i;
       var season = t.seasons[+btn.getAttribute('data-si')];
       var ep = season.episodes[+btn.getAttribute('data-ei')];
+      nowPlaying.textContent = season.name + ' · ' + ep.title;
       show(ep.players, preferred(ep.players), auto, function () { play(current + 1, false); });
 
       episodes.forEach(function (e) { e.classList.toggle('active', e === btn); });
-      nowPlaying.textContent = season.name + ' · ' + ep.title;
       prevBtn.disabled = i <= 0;
       nextBtn.disabled = i >= episodes.length - 1;
-      history.replaceState(null, '', '#/series/' + encodeURIComponent(t.id) + '/' + btn.id);
+      history.replaceState(null, '', '#/' + section + '/series/' + encodeURIComponent(t.id) + '/' + btn.id);
       try { localStorage.setItem(storeKey, btn.id); } catch (e) {}
       if (scroll) wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -542,32 +649,69 @@ button { font: inherit; color: inherit; }
 
   // ---- routing ----
 
+  function show(view) {
+    landingView.hidden = view !== landingView;
+    listView.hidden = view !== listView;
+    titleView.hidden = view !== titleView;
+    $('search-box').hidden = view !== listView;
+    $('section-tabs').hidden = $('kind-tabs').hidden = $('sync').hidden = view === landingView;
+  }
+
   function route() {
     var parts = location.hash.replace(/^#\/?/, '').split('/');
-    var k = parts[0] === 'movies' ? 'movies' : 'series';
-    var id = decodeURIComponent(parts[1] || '');
-    var t = id && byId[k][id];
+    // Links from before sections existed (#/series/<id>) are Farsi ones.
+    if (parts[0] === 'series' || parts[0] === 'movies') parts.unshift('farsi');
     stopPlayer();
     stopPlayer = function () {};
+
+    if (!SECTIONS[parts[0]]) {
+      if (!listView.hidden) listScroll[listKey] = window.scrollY;
+      show(landingView);
+      document.title = 'TV & Movies';
+      setSection('');
+      return;
+    }
+    var sec = parts[0];
+    var k = parts[1] === 'movies' ? 'movies' : 'series';
+    var id = decodeURIComponent(parts[2] || '');
+    setSection(sec);
     $('tab-series').classList.toggle('on', k === 'series');
     $('tab-movies').classList.toggle('on', k === 'movies');
+    $('tab-series').href = '#/' + sec + '/series';
+    $('tab-movies').href = '#/' + sec + '/movies';
 
-    if (t) {
-      if (!listView.hidden) listScroll[kind] = window.scrollY;
-      listView.hidden = true;
-      $('search-box').hidden = true;
-      titleView.hidden = false;
-      renderTitle(k, t, parts[2] || '');
-    } else {
-      titleView.hidden = true;
-      titleView.textContent = '';
-      listView.hidden = false;
-      $('search-box').hidden = false;
-      document.title = 'Persian TV & Movies';
-      var switched = k !== kind;
-      renderList(k);
-      window.scrollTo(0, switched ? 0 : (listScroll[k] || 0));
+    if (id) {
+      if (!listView.hidden) listScroll[listKey] = window.scrollY;
+      show(titleView);
+      kind = k;
+      // The list may not be loaded yet (a shared link); the title loads on its own.
+      load(sec).catch(function () {});
+      loadTitle(sec, k, id, parts[3] || '');
+      return;
     }
+
+    routeSeq++;
+    titleView.textContent = '';
+    var prevKey = listKey;
+    show(listView);
+    document.title = SECTIONS[sec] + ' · ' + (k === 'series' ? 'Series' : 'Movies');
+    if (!cats[sec]) {
+      grid.textContent = '';
+      more.hidden = true;
+      empty.hidden = true;
+      count.textContent = 'Loading…';
+    }
+    load(sec).then(function () {
+      if (section !== sec) return;
+      kind = k;
+      renderList();
+      var key = sec + '/' + k;
+      window.scrollTo(0, key !== prevKey ? (listScroll[key] || 0) : (listScroll[key] || window.scrollY));
+    }).catch(function (err) {
+      count.textContent = '';
+      empty.innerHTML = 'Couldn’t load the catalog (' + esc(err.message) + '). <a href="">Try again</a>';
+      empty.hidden = false;
+    });
   }
 
   input.addEventListener('input', applySearch);
@@ -584,31 +728,51 @@ button { font: inherit; color: inherit; }
   });
   window.addEventListener('hashchange', route);
 
-  // ---- sync ----
+  // ---- sync (of the section being shown) ----
 
   var syncBtn = $('sync-btn'), syncInfo = $('sync-info'), panel = $('sync-panel');
-  var pollTimer = null, lastState = '';
+  var pollTimer = null, lastState = {};
 
-  function startSync() {
+  function setSection(sec) {
+    var changed = sec !== section;
+    section = sec;
+    Object.keys(SECTIONS).forEach(function (s) { $('tab-' + s).classList.toggle('on', s === sec); });
+    if (changed) {
+      $('notice').hidden = true;
+      panel.hidden = true;
+      clearTimeout(pollTimer);
+      if (sec) {
+        syncBtn.textContent = 'Sync ' + SECTIONS[sec];
+        $('sync-text').textContent = '…';
+        pollStatus();
+      }
+    }
+  }
+
+  function startSync(deep) {
+    var sec = section;
     syncBtn.disabled = true;
-    fetch('/rsync/start', { cache: 'no-store' })
+    fetch('/rsync/start?' + qs({ section: sec, deep: deep ? 1 : 0 }), { cache: 'no-store' })
       .then(function (r) { return r.json(); })
-      .then(showStatus)
+      .then(function (st) { if (sec === section) showStatus(st); })
       .catch(function () { syncBtn.disabled = false; });
   }
 
   function pollStatus() {
+    var sec = section;
     clearTimeout(pollTimer);
-    fetch('/rsync/status', { cache: 'no-store' })
+    if (!sec) return;
+    fetch('/rsync/status?section=' + sec, { cache: 'no-store' })
       .then(function (r) { return r.json(); })
-      .then(showStatus)
-      .catch(function () { pollTimer = setTimeout(pollStatus, 5000); });
+      .then(function (st) { if (sec === section) showStatus(st); })
+      .catch(function () { if (sec === section) pollTimer = setTimeout(pollStatus, 5000); });
   }
 
   function showStatus(st) {
+    var sec = st.section || section;
     var running = st.state === 'RUNNING' || st.state === 'MERGING';
     syncBtn.disabled = running;
-    syncBtn.textContent = running ? 'Syncing…' : 'Sync';
+    syncBtn.textContent = running ? 'Syncing…' : 'Sync ' + SECTIONS[sec];
     $('sync-dot').className = 'dot ' + st.state;
 
     var text;
@@ -622,27 +786,29 @@ button { font: inherit; color: inherit; }
       text = 'Last sync ' + ago(st.started_at) + (st.state === 'FAILED' ? ' (failed)' : '');
     }
     $('sync-text').textContent = text;
-    if (st.started_at) syncInfo.title = 'Last sync started ' + new Date(st.started_at).toLocaleString();
+    if (st.started_at) syncInfo.title = 'Last ' + SECTIONS[sec] + ' sync started ' + new Date(st.started_at).toLocaleString();
 
     renderPanel(st);
 
     // A sync just finished: offer the new data if it changed.
-    if ((lastState === 'RUNNING' || lastState === 'MERGING') && !running) {
-      fetch('/rsync/data', { method: 'HEAD', cache: 'no-cache' }).then(function (r) {
-        if ((r.headers.get('ETag') || '') !== dataETag) $('notice').hidden = false;
+    var was = lastState[sec];
+    if ((was === 'RUNNING' || was === 'MERGING') && !running && cats[sec]) {
+      fetch('/rsync/data?section=' + sec, { method: 'HEAD', cache: 'no-cache' }).then(function (r) {
+        if (sec === section && (r.headers.get('ETag') || '') !== cats[sec].etag) $('notice').hidden = false;
       });
     }
-    lastState = st.state;
-    pollTimer = setTimeout(pollStatus, running ? 1500 : 60000);
+    lastState[sec] = st.state;
+    pollTimer = setTimeout(pollStatus, running || (st.titles || []).length ? 1500 : 60000);
   }
 
   function renderPanel(st) {
-    var html = '<h3>Sync: ' + esc(st.state) + (st.deep ? ' (deep)' : '') + '</h3>';
+    var html = '<h3>' + esc(SECTIONS[st.section] || '') + ' sync: ' + esc(st.state) + (st.deep ? ' (deep)' : '') + '</h3>';
     if (st.started_at) {
       html += '<div class="muted">Started ' + esc(new Date(st.started_at).toLocaleString()) +
         (st.finished_at ? ' · took ' + Math.max(1, Math.round((new Date(st.finished_at) - new Date(st.started_at)) / 1000)) + 's' : '') + '</div>';
     }
     html += '<div class="muted">Serving ' + st.series + ' series and ' + st.movies + ' movies</div>';
+    if ((st.titles || []).length) html += '<div class="muted">Syncing titles: ' + esc(st.titles.join(', ')) + '</div>';
     if (st.error) html += '<div class="err">' + esc(st.error) + '</div>';
     (st.sources || []).forEach(function (s) {
       var pct = s.total ? Math.round(100 * s.done / s.total) : (s.state === 'DONE' ? 100 : 0);
@@ -667,7 +833,7 @@ button { font: inherit; color: inherit; }
     if (log && atBottom) log.scrollTop = log.scrollHeight;
   }
 
-  syncBtn.addEventListener('click', startSync);
+  syncBtn.addEventListener('click', function () { startSync(false); });
   syncInfo.addEventListener('click', function () {
     panel.hidden = !panel.hidden;
     syncInfo.setAttribute('aria-expanded', String(!panel.hidden));
@@ -676,11 +842,11 @@ button { font: inherit; color: inherit; }
   panel.addEventListener('click', function (e) {
     if (e.target.hasAttribute('data-deep')) {
       e.target.disabled = true;
-      fetch('/rsync/start?deep=1', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(showStatus);
+      startSync(true);
     }
   });
   empty.addEventListener('click', function (e) {
-    if (e.target.hasAttribute('data-sync')) startSync();
+    if (e.target.hasAttribute('data-sync')) startSync(false);
   });
   document.addEventListener('click', function (e) {
     if (!panel.hidden && !e.target.closest('.sync')) {
@@ -688,14 +854,17 @@ button { font: inherit; color: inherit; }
       syncInfo.setAttribute('aria-expanded', 'false');
     }
   });
-  $('reload').addEventListener('click', load);
+  $('reload').addEventListener('click', function () {
+    var sec = section;
+    load(sec, true).then(function () {
+      $('notice').hidden = true;
+      if (sec === section && !listView.hidden) renderList(true);
+    });
+  });
 
   var q = new URL(location.href).searchParams.get('q');
   if (q) input.value = q;
-  load().then(function () {
-    if (listView.hidden === false && !q) input.focus();
-  });
-  pollStatus();
+  route();
 })();
 </script>
 </body>
