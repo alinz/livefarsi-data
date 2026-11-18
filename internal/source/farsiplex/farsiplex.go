@@ -5,7 +5,7 @@
 // requests) and fetches only what is new or has a newer date. Players come
 // from the site's player API, one per quality.
 //
-// Files: <dir>/series/<slug>.json and <dir>/movies/<slug>.json.
+// Stored items: (series, <slug>), (movies, <slug>) and (state, orphans).
 package farsiplex
 
 import (
@@ -35,7 +35,8 @@ type Source struct{}
 
 func New() *Source { return &Source{} }
 
-func (*Source) Name() string { return "farsiplex" }
+func (*Source) Name() string    { return "farsiplex" }
+func (*Source) Section() string { return source.Farsi }
 
 // RPS is low because the player API isn't cached on the site's side.
 func (*Source) RPS() float64 { return 5 }
@@ -126,7 +127,7 @@ func (s *Source) SyncSeries(ctx context.Context, env *source.Env) ([]*catalog.Ti
 	owner := map[string]int{}
 	for i, e := range entries {
 		var sh *Show
-		if ok, _ := catalog.ReadJSON(filepath.Join(env.Dir, "series", slugOf(e.loc)+".json"), &sh); ok {
+		if ok, _ := env.Store.Load(ctx, source.Series, slugOf(e.loc), &sh); ok {
 			saved[i] = sh
 			for _, se := range sh.Seasons {
 				for _, ep := range se.Episodes {
@@ -153,9 +154,8 @@ func (s *Source) SyncSeries(ctx context.Context, env *source.Env) ([]*catalog.Ti
 	// Some episodes in the sitemap aren't on any show page. Once a full
 	// check has found that, they are remembered so they don't trigger
 	// another one, until their date changes.
-	orphansPath := filepath.Join(env.Dir, "orphans.json")
 	orphans := map[string]string{}
-	catalog.ReadJSON(orphansPath, &orphans)
+	env.Store.Load(ctx, "state", "orphans", &orphans)
 	for u, mod := range epMod {
 		if _, ok := owner[u]; ok {
 			continue
@@ -218,7 +218,7 @@ func (s *Source) SyncSeries(ctx context.Context, env *source.Env) ([]*catalog.Ti
 				orphans[u] = mod
 			}
 		}
-		if err := catalog.WriteJSON(orphansPath, orphans); err != nil {
+		if err := env.Store.Save(ctx, "state", "orphans", orphans); err != nil {
 			env.Logf("saving orphans: %v", err)
 		}
 	}
@@ -313,7 +313,7 @@ func (s *Source) syncShow(ctx context.Context, env *source.Env, e entry, old *Sh
 			return old, nil
 		}
 	}
-	if err := catalog.WriteFile(filepath.Join(env.Dir, "series", sh.Slug+".json"), b); err != nil {
+	if err := env.Store.Save(ctx, source.Series, sh.Slug, sh); err != nil {
 		return nil, err
 	}
 	switch {
@@ -398,9 +398,8 @@ func (s *Source) SyncMovies(ctx context.Context, env *source.Env) ([]*catalog.Ti
 	var failed atomic.Int32
 	err = source.Parallel(ctx, 3, entries, func(i int, e entry) {
 		defer env.Done()
-		path := filepath.Join(env.Dir, "movies", slugOf(e.loc)+".json")
 		var old *Movie
-		if ok, _ := catalog.ReadJSON(path, &old); !ok {
+		if ok, _ := env.Store.Load(ctx, source.Movies, slugOf(e.loc), &old); !ok {
 			old = nil
 		}
 		movies[i] = old
@@ -409,7 +408,7 @@ func (s *Source) SyncMovies(ctx context.Context, env *source.Env) ([]*catalog.Ti
 		}
 		m, err := fetchMovie(ctx, env.Fetch, e, old)
 		if err == nil {
-			err = catalog.WriteJSON(path, m)
+			err = env.Store.Save(ctx, source.Movies, m.Slug, m)
 		}
 		if err != nil {
 			if errors.Is(err, fetch.ErrNotFound) {
@@ -461,4 +460,64 @@ func fetchMovie(ctx context.Context, f *fetch.Fetcher, e entry, old *Movie) (*Mo
 		m.Players = old.Players
 	}
 	return m, nil
+}
+
+// ---- one title ----
+
+// SyncTitle re-reads one show or movie. The sitemaps still tell which
+// episodes changed, so only those (and new ones) are fetched, unless env.Deep.
+func (s *Source) SyncTitle(ctx context.Context, env *source.Env, kind string, t *catalog.Title) (*catalog.Title, error) {
+	u := source.LinkOf(t, s.Name())
+	if u == "" {
+		return nil, fmt.Errorf("%s has no %s page", t.Title, s.Name())
+	}
+	slug := slugOf(u)
+	find := func(entries []entry) entry {
+		for _, e := range entries {
+			if e.loc == u {
+				return e
+			}
+		}
+		return entry{loc: u}
+	}
+
+	if kind == source.Series {
+		sm, err := sitemap(ctx, env.Fetch, "tvshows", "episodes")
+		if err != nil {
+			return nil, err
+		}
+		epMod := map[string]string{}
+		for _, e := range sm["episodes"] {
+			epMod[e.loc] = e.lastmod
+		}
+		var old *Show
+		if ok, _ := env.Store.Load(ctx, source.Series, slug, &old); !ok {
+			old = nil
+		}
+		sh, err := s.syncShow(ctx, env, find(sm["tvshows"]), old, epMod)
+		if err != nil {
+			return nil, err
+		}
+		return s.showTitle(sh), nil
+	}
+
+	sm, err := sitemap(ctx, env.Fetch, "movies")
+	if err != nil {
+		return nil, err
+	}
+	var old *Movie
+	if ok, _ := env.Store.Load(ctx, source.Movies, slug, &old); !ok {
+		old = nil
+	}
+	m, err := fetchMovie(ctx, env.Fetch, find(sm["movies"]), old)
+	if err != nil {
+		return nil, err
+	}
+	if err := env.Store.Save(ctx, source.Movies, m.Slug, m); err != nil {
+		return nil, err
+	}
+	env.Logf("~ movie %s: synced", m.Slug)
+	mt := s.title(m.Slug, m.URL, m.Info)
+	mt.Players = s.players(m.Players)
+	return mt, nil
 }

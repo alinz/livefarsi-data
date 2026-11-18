@@ -30,6 +30,9 @@ type Title struct {
 	Links   []Link    `json:"links"`
 	Seasons []*Season `json:"seasons,omitempty"`
 	Players []*Player `json:"players,omitempty"`
+	// Partial marks a title known only from a source's listing (title and
+	// poster); its seasons and players are fetched when someone opens it.
+	Partial bool `json:"partial,omitempty"`
 }
 
 type Link struct {
@@ -55,12 +58,20 @@ type Episode struct {
 type Player struct {
 	Source string `json:"source"`
 	Label  string `json:"label,omitempty"` // e.g. "720p"
-	// Type is "iframe" for embeddable pages (ok.ru, YouTube, ...) or "video"
-	// for a media file played with an HTML5 <video> element.
+	// Type is "iframe" for embeddable pages (ok.ru, YouTube, ...), "video"
+	// for a media file played with an HTML5 <video> element, or "link" for a
+	// page that can't be embedded and opens on its own site.
 	Type string `json:"type"`
 	URL  string `json:"url"`
 	Mime string `json:"mime,omitempty"`
 }
+
+// Player types.
+const (
+	PlayerIframe = "iframe"
+	PlayerVideo  = "video"
+	PlayerLink   = "link"
+)
 
 // Playable reports how many episodes (or, for a movie, 1 or 0) can be played.
 func (t *Title) Playable() int {

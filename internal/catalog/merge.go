@@ -78,6 +78,7 @@ func mergeInto(dst, src *Title) {
 	dst.Description = cmpOr(dst.Description, src.Description)
 	dst.Links = append(dst.Links, src.Links...)
 	dst.Players = append(dst.Players, src.Players...)
+	dst.Partial = dst.Partial || src.Partial
 
 	for _, sse := range src.Seasons {
 		var dse *Season

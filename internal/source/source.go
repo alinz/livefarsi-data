@@ -1,7 +1,7 @@
 // Package source defines what a streaming site adapter must provide. Each
-// adapter keeps its own working files in its own folder and syncs
-// incrementally: it checks the site's listings for what changed and fetches
-// only new or changed titles.
+// adapter keeps its own working data in the store and syncs incrementally:
+// it checks the site's listings for what changed and fetches only new or
+// changed titles.
 package source
 
 import (
@@ -12,10 +12,25 @@ import (
 	"farsi.ella.to/internal/fetch"
 )
 
+// Sections group sources into the site's top-level parts. Each section is
+// synced, merged and served on its own.
+const (
+	Farsi   = "farsi"   // Iranian series and movies
+	Foreign = "foreign" // everything else
+)
+
+// Kinds of titles, as used in the store and the API.
+const (
+	Series = "series"
+	Movies = "movies"
+)
+
 // Source is one site, such as diycraftsguide.com or farsiplex.com.
 type Source interface {
-	// Name is the source's id; its files live in <data dir>/<Name>.
+	// Name is the source's id; its items are stored under it.
 	Name() string
+	// Section is the section (Farsi or Foreign) the source belongs to.
+	Section() string
 	// RPS is the most requests per second the source should receive.
 	RPS() float64
 	// SyncSeries brings the saved TV series up to date and returns all of
@@ -24,11 +39,27 @@ type Source interface {
 	SyncSeries(ctx context.Context, env *Env) ([]*catalog.Title, error)
 	// SyncMovies does the same for movies.
 	SyncMovies(ctx context.Context, env *Env) ([]*catalog.Title, error)
+	// SyncTitle brings one title up to date: t is this source's own version
+	// of it (as SyncSeries or SyncMovies returned it), kind is Series or
+	// Movies. It returns the updated title.
+	SyncTitle(ctx context.Context, env *Env, kind string, t *catalog.Title) (*catalog.Title, error)
+}
+
+// Store is a source's own persistent data: one JSON document per (kind,
+// slug). Sources use the kinds Series and Movies for titles, and "state" for
+// anything else they need to remember, such as where a sync left off.
+type Store interface {
+	// Load reads a document into v; it reports false if there is none.
+	Load(ctx context.Context, kind, slug string, v any) (bool, error)
+	Save(ctx context.Context, kind, slug string, v any) error
+	Delete(ctx context.Context, kind, slug string) error
+	// Each calls fn with every document of a kind.
+	Each(ctx context.Context, kind string, fn func(slug string, data []byte) error) error
 }
 
 // Env is what a sync gets to work with.
 type Env struct {
-	Dir   string // the source's own folder, created before the sync starts
+	Store Store
 	Fetch *fetch.Fetcher
 	Deep  bool // re-check every title, not only those the listings say changed
 	Report
@@ -64,4 +95,14 @@ func Parallel[T any](ctx context.Context, n int, items []T, fn func(int, T)) err
 	}
 	wg.Wait()
 	return ctx.Err()
+}
+
+// LinkOf returns the URL of t's page on the named source, or "".
+func LinkOf(t *catalog.Title, source string) string {
+	for _, l := range t.Links {
+		if l.Source == source {
+			return l.URL
+		}
+	}
+	return ""
 }

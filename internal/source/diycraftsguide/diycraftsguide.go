@@ -7,7 +7,7 @@
 // new episode pages. Movies: the catalog lists every movie; only movies not
 // yet saved are fetched. Deep mode re-reads every show and movie page.
 //
-// Files: <dir>/series/<slug>.json and <dir>/movies/<slug>.json.
+// Stored items: (series, <slug>) and (movies, <slug>).
 package diycraftsguide
 
 import (
@@ -15,7 +15,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"path/filepath"
+	"path"
+	"strings"
 	"sync"
 	"sync/atomic"
 
@@ -30,8 +31,9 @@ type Source struct{}
 
 func New() *Source { return &Source{} }
 
-func (*Source) Name() string { return "diycraftsguide" }
-func (*Source) RPS() float64 { return 8 }
+func (*Source) Name() string    { return "diycraftsguide" }
+func (*Source) Section() string { return source.Farsi }
+func (*Source) RPS() float64    { return 8 }
 
 // listCatalog reads every page of a catalog and returns its titles in order.
 // first is the first page; page(n) is the URL of a later one, where n is the
@@ -120,9 +122,8 @@ func (s *Source) SyncSeries(ctx context.Context, env *source.Env) ([]*catalog.Ti
 // syncShow brings one show's file up to date and returns the show. On error
 // it returns the previously saved show, if any.
 func (s *Source) syncShow(ctx context.Context, env *source.Env, c card) (*Show, error) {
-	path := filepath.Join(env.Dir, "series", c.slug+".json")
 	var old *Show
-	if ok, err := catalog.ReadJSON(path, &old); err != nil || !ok {
+	if ok, err := env.Store.Load(ctx, source.Series, c.slug, &old); err != nil || !ok {
 		old = nil
 	}
 	if old != nil && !env.Deep && old.EpisodeCount == c.label {
@@ -150,7 +151,7 @@ func (s *Source) syncShow(ctx context.Context, env *source.Env, c card) (*Show, 
 			return old, nil
 		}
 	}
-	if err := catalog.WriteFile(path, b); err != nil {
+	if err := env.Store.Save(ctx, source.Series, c.slug, show); err != nil {
 		return old, err
 	}
 	switch {
@@ -255,9 +256,8 @@ func (s *Source) SyncMovies(ctx context.Context, env *source.Env) ([]*catalog.Ti
 	var failed atomic.Int32
 	err = source.Parallel(ctx, 6, cards, func(i int, c card) {
 		defer env.Done()
-		path := filepath.Join(env.Dir, "movies", c.slug+".json")
 		var old *Movie
-		if ok, err := catalog.ReadJSON(path, &old); err != nil || !ok {
+		if ok, err := env.Store.Load(ctx, source.Movies, c.slug, &old); err != nil || !ok {
 			old = nil
 		}
 		movies[i] = old
@@ -278,7 +278,7 @@ func (s *Source) SyncMovies(ctx context.Context, env *source.Env) ([]*catalog.Ti
 		if old != nil && *old == *m {
 			return
 		}
-		if err := catalog.WriteJSON(path, m); err != nil {
+		if err := env.Store.Save(ctx, source.Movies, c.slug, m); err != nil {
 			failed.Add(1)
 			env.Logf("%s: %v", c.slug, err)
 			return
@@ -316,4 +316,54 @@ func (s *Source) movieTitle(m *Movie) *catalog.Title {
 		Players: s.players(m.Video),
 	}
 	return t
+}
+
+// ---- one title ----
+
+// SyncTitle re-reads one show page (fetching only episodes it doesn't have a
+// player for yet, unless env.Deep) or one movie page.
+func (s *Source) SyncTitle(ctx context.Context, env *source.Env, kind string, t *catalog.Title) (*catalog.Title, error) {
+	u := source.LinkOf(t, s.Name())
+	if u == "" {
+		return nil, fmt.Errorf("%s has no %s page", t.Title, s.Name())
+	}
+	slug := strings.TrimSuffix(path.Base(u), ".html")
+
+	if kind == source.Series {
+		var old *Show
+		if ok, _ := env.Store.Load(ctx, source.Series, slug, &old); !ok {
+			old = nil
+		}
+		c := card{slug: slug, title: t.Title, url: u, poster: t.Poster}
+		if old != nil {
+			c.title, c.poster, c.label = old.Title, old.Poster, old.EpisodeCount
+		}
+		// An empty label never matches the saved count, so the page is re-read.
+		saved := c.label
+		c.label = ""
+		show, err := s.syncShow(ctx, env, c)
+		if err != nil {
+			return nil, err
+		}
+		if show.EpisodeCount == "" && saved != "" {
+			// Keep the catalog's count so the next full sync can skip it.
+			show.EpisodeCount = saved
+			if err := env.Store.Save(ctx, source.Series, slug, show); err != nil {
+				return nil, err
+			}
+		}
+		return s.showTitle(show), nil
+	}
+
+	m := &Movie{Slug: slug, Title: t.Title, URL: u, Poster: t.Poster}
+	page, err := env.Fetch.Get(ctx, u)
+	if err != nil {
+		return nil, err
+	}
+	parseMoviePage(m, page)
+	if err := env.Store.Save(ctx, source.Movies, slug, m); err != nil {
+		return nil, err
+	}
+	env.Logf("~ movie %s: synced", slug)
+	return s.movieTitle(m), nil
 }
